@@ -60,12 +60,12 @@
 
 .botonResgistro {
     width: 48%;
-    padding: 10px;
+    padding: 4px;
     background-color: #00AF00;
-    color: white;
+    color: #000;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 25px;
     cursor: pointer;
     margin-top: 15px;
     transition: background-color 0.3s ease;
@@ -79,8 +79,8 @@
     display: block;
     margin-top: 15px;
     text-decoration: none;
-    color: #ffffff;
-    /* font-size: 14px; */
+    color: #000;
+    font-size: 25px;
     background-color: #00AF00;
     width: 48%;
     height: 42px;
