@@ -1,24 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import '../estilos/inicioSesion.css';
 import logo from '../imagenes/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const InicioSesion = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const data = { email, password };
+        
+        try {
+            const response = await fetch('http://localhost:5000/validar_usuario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (response.status === 200) {
+                navigate('/recetasAdmin');
+            } else {
+                setErrorMessage(result.message || 'Error al iniciar sesión');
+                alert("Usuario o Contraseña incorrectoss")
+            }
+        } catch (error) {
+            setErrorMessage('Error de red. Intenta nuevamente más tarde.');
+            console.error('Error:', error);
+        }
+    };
+
     return (
         <div className="contenedor">
             <div className="contenedorFormulario">
-                <form className="formularioInicio">
+                <form className="formularioInicio" onSubmit={handleSubmit}>
                     <h2 className="tituloInicio">INICIO DE SESION</h2>
                     <br /><br />
                     <div className="inputs">
-                        <input type="text" placeholder="Correo electrónico" className="inputInicio"/>
-                        <br /><br /><br /><br />
-                        <input type="password" placeholder="Contraseña" className="inputInicio"/>
-                        <br /><br />
+                        <input
+                            type="email"
+                            placeholder="Correo electrónico"
+                            className="inputRegistro"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <br />
+                        <input
+                            type="password"
+                            placeholder="Contraseña"
+                            className="inputRegistro"
+                            name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <br />
                     </div>
+                    {errorMessage && <p className="error">{errorMessage}</p>}
                     <div className="contenedorBonotes">
-                    <Link to="/" className="botonVolverinicio">
-                        <button type="submit" className="botones botonVolverInicio">Volver</button></Link>
+                        <Link to="/" className="botonVolverinicio">
+                            <button type="button" className="botones botonVolverInicio">Volver</button>
+                        </Link>
                         <button type="submit" className="botones botoneInicio">Iniciar Sesión</button>
                         <br />
                     </div>
