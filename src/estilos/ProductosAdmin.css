@@ -3,16 +3,16 @@ body{
     min-width: 0;
     min-height: 0;
 }
-.recetasAdmin{
+.ProductosAdmin{
     width: 100%;
 }
 
-.tituloCrudRecetas{
+.tituloCrudProductos{
     border-bottom: 0.5px solid;
     width: 262px;
 }
 
-.actulizarRecetas{
+.actulizarProductos{
     background-color: #00AF00;
     font-size: 27px;
     border-radius: 15%;
@@ -20,21 +20,21 @@ body{
     top: 12px;
 
 }
-.verMasRecetasAdmin{
+.verMasProductosAdmin{
     background-color: #D9D9D9;
     width: 82%;
 }
-.crudRecetasAdmin{
+.crudProductosAdmin{
     width: 80%;
     position: relative;
     left: 18.5%;
 }
-.accionesRecetasAdmin{
+.accionesProductosAdmin{
     width: 15%;
     position: relative;
     left: 2.5%;
 }
-.buscarRecetasAdmin{
+.buscarProductosAdmin{
     background: #D9D9D9;
     border: none;
     width: 22%;
@@ -44,7 +44,7 @@ body{
     left: 31%;
     bottom: 27px;
 }
-.botonBuscarRecetasAdmin{
+.botonBuscarProductosAdmin{
     background-color: #5E5E5E;
     position: relative;
     left: 28%;
@@ -123,8 +123,8 @@ body{
 }
 
 
-/* modal editar recetas */
-.modalEditarRecetasAdmin{
+/* modal editar Productos */
+.modalEditarProductosAdmin{
     position: fixed;
     top: 0;
     left: 0;
@@ -138,13 +138,13 @@ body{
 }
 
 
-.formularioEditarRecetasAdmin{
+.formularioEditarProductosAdmin{
     display: flex;
     flex-direction: column;
 
 }
 
-.inputRecetaEditarAdmin{
+.inputProductoEditarAdmin{
     height: 40px;
     border: none;
     border-radius: 5px;
@@ -152,12 +152,12 @@ body{
     padding: 2%;
 }
 
-.botonEditarRecetasAdmin{
+.botonEditarProductosAdmin{
     background-color: #00AF00;
     height: 49px;
     border-radius: 5px;
 }
-.iconoFotoRecetasAdmin{
+.iconoFotoProductosAdmin{
     position: relative;
     bottom: 46px;
     font-size: 37px;

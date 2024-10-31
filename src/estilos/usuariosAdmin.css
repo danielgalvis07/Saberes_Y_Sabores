@@ -3,16 +3,16 @@ body{
     min-width: 0;
     min-height: 0;
 }
-.recetasAdmin{
+.UsuariosAdmin{
     width: 100%;
 }
 
-.tituloCrudRecetas{
+.tituloCrudUsuarios{
     border-bottom: 0.5px solid;
     width: 262px;
 }
 
-.actulizarRecetas{
+.actulizarUsuarios{
     background-color: #00AF00;
     font-size: 27px;
     border-radius: 15%;
@@ -20,21 +20,18 @@ body{
     top: 12px;
 
 }
-.verMasRecetasAdmin{
-    background-color: #D9D9D9;
-    width: 82%;
-}
-.crudRecetasAdmin{
+
+.crudUsuariosAdmin{
     width: 80%;
     position: relative;
     left: 18.5%;
 }
-.accionesRecetasAdmin{
+.accionesUsuariosAdmin{
     width: 15%;
     position: relative;
     left: 2.5%;
 }
-.buscarRecetasAdmin{
+.buscarUsuariosAdmin{
     background: #D9D9D9;
     border: none;
     width: 22%;
@@ -44,7 +41,7 @@ body{
     left: 31%;
     bottom: 27px;
 }
-.botonBuscarRecetasAdmin{
+.botonBuscarUsuariosAdmin{
     background-color: #5E5E5E;
     position: relative;
     left: 28%;
@@ -123,8 +120,8 @@ body{
 }
 
 
-/* modal editar recetas */
-.modalEditarRecetasAdmin{
+/* modal editar Usuarios */
+.modalEditarUsuariosAdmin{
     position: fixed;
     top: 0;
     left: 0;
@@ -138,26 +135,43 @@ body{
 }
 
 
-.formularioEditarRecetasAdmin{
+.formularioEditarUsuariosAdmin{
     display: flex;
     flex-direction: column;
 
 }
 
-.inputRecetaEditarAdmin{
+.inputUsuarioEditarAdmin{
     height: 40px;
     border: none;
     border-radius: 5px;
     background-color: #D9D9D9;
     padding: 2%;
 }
+.inputsUsuariosSelectEditar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
-.botonEditarRecetasAdmin{
+}
+.selectClaveUsuariosEditar{
+    width: 50%;
+    margin-right: 1%;
+    margin-bottom: 4%;
+}
+.selectUsuarioEditarAdmin{
+    height: 65px;
+    border: none;
+    border-radius: 5px;
+    background-color: #D9D9D9;
+    padding: 2%;
+}
+.botonEditarUsuariosAdmin{
     background-color: #00AF00;
     height: 49px;
     border-radius: 5px;
 }
-.iconoFotoRecetasAdmin{
+.iconoFotoUsuariosAdmin{
     position: relative;
     bottom: 46px;
     font-size: 37px;

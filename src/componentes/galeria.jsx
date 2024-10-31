@@ -1,53 +1,27 @@
-import React, { useState } from 'react';
-import '../estilos/galeria.css'
+import React from "react";
+import "../estilos/misProductos.css"; // Archivo CSS para los estilos
 
+const productos = [
+  { url: "https://link-to-image/remolacha.png", titulo: "REMOLACHA", inventario: 5 },
+  { url: "https://link-to-image/cebolla.png", titulo: "CEBOLLA", inventario: 7 },
+  { url: "https://link-to-image/alcachofa.png", titulo: "ALCACHOFA", inventario: 10 },
+];
 
-const Galeria = ({ imagenes }) => {
-  // Estado para el modal
-  const [modalVisible, setModalVisible] = useState(false);
-  const [imagenActiva, setImagenActiva] = useState(null);
-
-  // Función para abrir el modal con la imagen seleccionada
-  const abrirModal = (imagen) => {
-    setImagenActiva(imagen);
-    setModalVisible(true);
-  }; 
-
-  // Función para cerrar el modal
-  const cerrarModal = () => {
-    setModalVisible(false);
-    setImagenActiva(null);
-  };
-
+const MisProductos = () => {
   return (
-    <div className="galeria">
-      {imagenes.map((imagen, indice) => (
-        <div key={indice} className="imagenGaleria">
-          <p className='tituloImagenesGaleria'>{imagen.titulo}</p>
-          <img src={imagen.url} alt={imagen.titulo} />
-          <div className="descripcion">
-            <button className="verMas" onClick={() => abrirModal(imagen)}>
-              VER MÁS
-            </button>
+    <div className="galeriaProductos">
+      {productos.map((producto, index) => (
+        <div key={index} className="productoCard">
+          <div className="productoInfo">
+            <span className="productoTitulo">{producto.titulo}</span>
+            <span className="productoInventario">{producto.inventario}</span>
           </div>
+          <img src={producto.url} alt={producto.titulo} className="productoImagen" />
+          <button className="productoActualizarBtn">ACTUALIZAR</button>
         </div>
       ))}
-
-      {/* Modal */}
-      {modalVisible && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={cerrarModal}>
-              &times;
-            </span>
-            <h2>{imagenActiva.titulo}</h2>
-            <p>{imagenActiva.descripcion}</p>
-            p
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default Galeria;
+export default MisProductos;
