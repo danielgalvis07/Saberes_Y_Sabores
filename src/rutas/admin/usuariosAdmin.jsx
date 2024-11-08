@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import '../../estilos/usuariosAdmin.css';
 import MenuLateral from '../../componentes/sidebar';
 import NavAdmin from '../../componentes/navegacionAdmin';
 
 const initialDataUsuarios = [
-    { id: 1, nombre: 'juliana', apellidos: 'Mejia', telefono: '1234567890', correo: 'correo@gmail.com', clave: 'clave1', rol: '1', activo: true },
-    { id: 2, nombre: 'vane', apellidos: 'Osorio', telefono: '1234567890', correo: 'correo@gmail.com', clave: 'clave2', rol: '2', activo: true },
-    { id: 3, nombre: 'geraldin', apellidos: 'Orozco', telefono: '1234567890', correo: 'correo@gmail.com', clave: 'clave3', rol: '3', activo: true }
+    { id: 1, nombre: 'Juliana', apellidos: 'Mejia', telefono: '1234567890', correo: 'correo@gmail.com', clave: 'clave1', rol: '1', activo: true },
+    { id: 2, nombre: 'Vane', apellidos: 'Osorio', telefono: '1234567890', correo: 'correo@gmail.com', clave: 'clave2', rol: '2', activo: true },
+    { id: 3, nombre: 'Geraldin', apellidos: 'Orozco', telefono: '1234567890', correo: 'correo@gmail.com', clave: 'clave3', rol: '3', activo: true }
 ];
 
 const ToggleSwitch = ({ isActive, onToggle }) => (
@@ -22,9 +21,18 @@ const ToggleSwitch = ({ isActive, onToggle }) => (
 const UsuariosAdmin = () => {
     const [dataUsuarios, setDataUsuarios] = useState(initialDataUsuarios);
     const [selectedUsuario, setSelectedUsuario] = useState(null);
-    const [editMode, setEditMode] = useState(false);
-    const [showVerMasModal, setShowVerMasModal] = useState(false);
     const [showEditarModal, setShowEditarModal] = useState(false);
+    const [showNuevoModal, setShowNuevoModal] = useState(false); 
+    const [newUsuario, setNewUsuario] = useState({
+        id: dataUsuarios.length + 1,
+        nombre: "",
+        apellidos: "",
+        telefono: "",
+        correo: "",
+        clave: "",
+        rol: "1",
+        activo: true,
+    });
 
     const toggleActivo = (id) => {
         setDataUsuarios((prevData) =>
@@ -34,24 +42,59 @@ const UsuariosAdmin = () => {
         );
     };
 
-    const handleVerMas = (Usuario) => {
-        setSelectedUsuario(Usuario);
-        setShowVerMasModal(true);
+    const handleEditar = (usuario) => {
+        setSelectedUsuario({ ...usuario });
+        setShowEditarModal(true);
     };
 
-    const handleEditar = (Usuario) => {
-        setSelectedUsuario(Usuario);
-        setEditMode(true);
-        setShowEditarModal(true);
+    const handleChangeEditUsuario = (e) => {
+        const { name, value } = e.target;
+        setSelectedUsuario((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
     const handleUpdateUsuario = (e) => {
         e.preventDefault();
-        const updatedUsuarios = dataUsuarios.map((Usuario) =>
-            Usuario.id === selectedUsuario.id ? selectedUsuario : Usuario
+        setDataUsuarios((prevData) =>
+            prevData.map((usuario) =>
+                usuario.id === selectedUsuario.id ? selectedUsuario : usuario
+            )
         );
-        setDataUsuarios(updatedUsuarios);
         setShowEditarModal(false);
+    };
+
+    const handleNuevoUsuario = () => {
+        setShowNuevoModal(true); 
+    };
+
+    const handleCloseNuevoModal = () => {
+        setShowNuevoModal(false); 
+    };
+
+    const handleChangeNewUsuario = (e) => {
+        const { name, value } = e.target;
+        setNewUsuario((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleCreateUsuario = (e) => {
+        e.preventDefault();
+        setDataUsuarios([...dataUsuarios, { ...newUsuario, id: dataUsuarios.length + 1 }]);
+        setShowNuevoModal(false);
+        setNewUsuario({
+            id: dataUsuarios.length + 2,
+            nombre: "",
+            apellidos: "",
+            telefono: "",
+            correo: "",
+            clave: "",
+            rol: "1",
+            activo: true,
+        });
     };
 
     return (
@@ -60,8 +103,10 @@ const UsuariosAdmin = () => {
             <MenuLateral />
             <h1>Usuarios</h1>
             <input type="text" className="buscarUsuariosAdmin"/>
-            <button  className="botonBuscarUsuariosAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-            <button></button>
+            <button className="botonBuscarUsuariosAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            <button className="nuevaRecetaAdmin" onClick={handleNuevoUsuario}>
+                Registrar usuario
+            </button>
             <table className="crudUsuariosAdmin">
                 <thead>
                     <tr>
@@ -69,7 +114,7 @@ const UsuariosAdmin = () => {
                         <td className="tituloCrudUsuarios">Nombre</td>
                         <td className="tituloCrudUsuarios">Apellidos</td>
                         <td className="tituloCrudUsuarios">Telefono</td>
-                        <td className="tituloCrudUsuarios">correo</td>
+                        <td className="tituloCrudUsuarios">Correo</td>
                         <td className="tituloCrudUsuarios">Clave</td>
                         <td className="tituloCrudUsuarios">Rol</td>
                         <td className="tituloCrudUsuarios">Acciones</td>
@@ -85,7 +130,6 @@ const UsuariosAdmin = () => {
                             <td>{item.correo}</td>
                             <td>{item.clave}</td>
                             <td>{item.rol}</td>
-
                             <td className="accionesUsuariosAdmin">
                                 <NavLink className='actulizarUsuarios'>
                                     <FontAwesomeIcon icon={faPencil} onClick={() => handleEditar(item)} style={{ color: "#000000" }} />
@@ -100,30 +144,49 @@ const UsuariosAdmin = () => {
                 </tbody>
             </table>
 
-
-
-
-            {/* Modal para "Editar" */}
-            {showEditarModal && (
+            {showEditarModal && selectedUsuario && (
                 <div className="modalEditarUsuariosAdmin" onClick={() => setShowEditarModal(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-modal" onClick={() => setShowEditarModal(false)}>X</button>
                         <h2>Editar Usuario</h2>
                         <form onSubmit={handleUpdateUsuario} className="formularioEditarUsuariosAdmin">
-                            <input className="inputUsuarioEditarAdmin" placeholder="Nombre" type="text" /><br />
-                            <input className="inputUsuarioEditarAdmin" placeholder="apellidos" type="text" /><br />
-                            <input className="inputUsuarioEditarAdmin" placeholder="Telefono" type="text" /><br />
-                            <input className="inputUsuarioEditarAdmin" placeholder="Correo" type="text" /><br />
+                            <input className="inputUsuarioEditarAdmin" name="nombre" value={selectedUsuario.nombre} placeholder="Nombre" type="text" onChange={handleChangeEditUsuario} /><br />
+                            <input className="inputUsuarioEditarAdmin" name="apellidos" value={selectedUsuario.apellidos} placeholder="Apellidos" type="text" onChange={handleChangeEditUsuario} /><br />
+                            <input className="inputUsuarioEditarAdmin" name="telefono" value={selectedUsuario.telefono} placeholder="Telefono" type="text" onChange={handleChangeEditUsuario} /><br />
+                            <input className="inputUsuarioEditarAdmin" name="correo" value={selectedUsuario.correo} placeholder="Correo" type="text" onChange={handleChangeEditUsuario} /><br />
                             <div className="inputsUsuariosSelectEditar">
-                                <input className="inputUsuarioEditarAdmin selectClaveUsuariosEditar" placeholder="Clave" type="text" /><br />
-                                <select name="Rol" id="" className="selectUsuarioEditarAdmin selectClaveUsuariosEditar" >
+                                <input className="selectClaveUsuariosEditar inputUsuarioEditarAdmin" name="clave" value={selectedUsuario.clave} placeholder="Clave" type="text" onChange={handleChangeEditUsuario} /><br />
+                                <select className="selectClaveUsuariosEditar selectUsuarioEditarAdmin" name="rol" value={selectedUsuario.rol} onChange={handleChangeEditUsuario}>
                                     <option value="1">Admin</option>
-                                    <option value="2">Usuarios</option>
+                                    <option value="2">Usuario</option>
                                     <option value="3">Vendedor</option>
                                 </select>
                             </div>
-
                             <button type="submit" className="botonEditarUsuariosAdmin">Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {showNuevoModal && (
+                <div className="modalEditarUsuariosAdmin" onClick={handleCloseNuevoModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="close-modal" onClick={handleCloseNuevoModal}>X</button>
+                        <h2>Registrar Nuevo Usuario</h2>
+                        <form onSubmit={handleCreateUsuario} className="formularioEditarUsuariosAdmin">
+                            <input className="inputUsuarioEditarAdmin" name="nombre" placeholder="Nombre" type="text" onChange={handleChangeNewUsuario} required /><br />
+                            <input className="inputUsuarioEditarAdmin" name="apellidos" placeholder="Apellidos" type="text" onChange={handleChangeNewUsuario} required /><br />
+                            <input className="inputUsuarioEditarAdmin" name="telefono" placeholder="Teléfono" type="text" onChange={handleChangeNewUsuario} required /><br />
+                            <input className="inputUsuarioEditarAdmin" name="correo" placeholder="Correo" type="email" onChange={handleChangeNewUsuario} required /><br />
+                            <div className="inputsUsuariosSelectEditar">
+                            <input className="inputUsuarioEditarAdmin selectClaveUsuariosEditar" name="clave" placeholder="Clave" type="text" onChange={handleChangeNewUsuario} required />
+                            <select name="rol" onChange={handleChangeNewUsuario} className="selectClaveUsuariosEditar selectUsuarioEditarAdmin" required>
+                                <option value="1">Admin</option>
+                                <option value="2">Usuario</option>
+                                <option value="3">Vendedor</option>
+                            </select>
+                            </div>
+                            <button type="submit" className="botonEditarUsuariosAdmin">Registrar usuario</button>
                         </form>
                     </div>
                 </div>
