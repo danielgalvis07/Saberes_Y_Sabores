@@ -54,6 +54,16 @@ def validar_usuario():
         return jsonify({"message": "Usuario Iniciado"}), 200  # Si la autenticación es correcta
     else:
         return jsonify({"message": "Error de autenticación"}), 401  # Si falla la autenticación
+    
+@app.route('/usuariosAdmin')
+def index():
+    conexion = db.connect()
+    cur = conexion.cursor()
+    cur.execute('SELECT * FROM usuarios')
+    data = cur.fetchall()
+    print(data)
+    return jsonify( contacts=data)    
+
 
 if __name__ == '__main__':
     app.run(debug=True)

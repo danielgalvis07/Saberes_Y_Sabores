@@ -10,7 +10,7 @@ class Database:
                 user='root',
                 password='',
                 host='localhost',
-                database='semilla',
+                database='semillas',
                 port='3306'
             )
         return self.connection

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -6,11 +6,7 @@ import '../../estilos/usuariosAdmin.css';
 import MenuLateral from '../../componentes/sidebar';
 import NavAdmin from '../../componentes/navegacionAdmin';
 
-const initialDataUsuarios = [
-    { id: 1, nombre: 'Juliana', apellidos: 'Mejia', telefono: '1234567890', correo: 'correo@gmail.com', clave: 'clave1', rol: '1', activo: true },
-    { id: 2, nombre: 'Vane', apellidos: 'Osorio', telefono: '1234567890', correo: 'correo@gmail.com', clave: 'clave2', rol: '2', activo: true },
-    { id: 3, nombre: 'Geraldin', apellidos: 'Orozco', telefono: '1234567890', correo: 'correo@gmail.com', clave: 'clave3', rol: '3', activo: true }
-];
+
 
 const ToggleSwitch = ({ isActive, onToggle }) => (
     <div className={`toggle-switch ${isActive ? 'active' : ''}`} onClick={onToggle}>
@@ -19,7 +15,7 @@ const ToggleSwitch = ({ isActive, onToggle }) => (
 );
 
 const UsuariosAdmin = () => {
-    const [dataUsuarios, setDataUsuarios] = useState(initialDataUsuarios);
+    const [dataUsuarios, setDataUsuarios] = useState([]);
     const [selectedUsuario, setSelectedUsuario] = useState(null);
     const [showEditarModal, setShowEditarModal] = useState(false);
     const [showNuevoModal, setShowNuevoModal] = useState(false); 
@@ -33,6 +29,8 @@ const UsuariosAdmin = () => {
         rol: "1",
         activo: true,
     });
+
+
 
     const toggleActivo = (id) => {
         setDataUsuarios((prevData) =>
@@ -113,7 +111,6 @@ const UsuariosAdmin = () => {
                         <td className="tituloCrudUsuarios">Id</td>
                         <td className="tituloCrudUsuarios">Nombre</td>
                         <td className="tituloCrudUsuarios">Apellidos</td>
-                        <td className="tituloCrudUsuarios">Telefono</td>
                         <td className="tituloCrudUsuarios">Correo</td>
                         <td className="tituloCrudUsuarios">Clave</td>
                         <td className="tituloCrudUsuarios">Rol</td>
@@ -126,7 +123,6 @@ const UsuariosAdmin = () => {
                             <td>{item.id}</td>
                             <td>{item.nombre}</td>
                             <td>{item.apellidos}</td>
-                            <td>{item.telefono}</td>
                             <td>{item.correo}</td>
                             <td>{item.clave}</td>
                             <td>{item.rol}</td>
@@ -152,7 +148,6 @@ const UsuariosAdmin = () => {
                         <form onSubmit={handleUpdateUsuario} className="formularioEditarUsuariosAdmin">
                             <input className="inputUsuarioEditarAdmin" name="nombre" value={selectedUsuario.nombre} placeholder="Nombre" type="text" onChange={handleChangeEditUsuario} /><br />
                             <input className="inputUsuarioEditarAdmin" name="apellidos" value={selectedUsuario.apellidos} placeholder="Apellidos" type="text" onChange={handleChangeEditUsuario} /><br />
-                            <input className="inputUsuarioEditarAdmin" name="telefono" value={selectedUsuario.telefono} placeholder="Telefono" type="text" onChange={handleChangeEditUsuario} /><br />
                             <input className="inputUsuarioEditarAdmin" name="correo" value={selectedUsuario.correo} placeholder="Correo" type="text" onChange={handleChangeEditUsuario} /><br />
                             <div className="inputsUsuariosSelectEditar">
                                 <input className="selectClaveUsuariosEditar inputUsuarioEditarAdmin" name="clave" value={selectedUsuario.clave} placeholder="Clave" type="text" onChange={handleChangeEditUsuario} /><br />
@@ -176,7 +171,6 @@ const UsuariosAdmin = () => {
                         <form onSubmit={handleCreateUsuario} className="formularioEditarUsuariosAdmin">
                             <input className="inputUsuarioEditarAdmin" name="nombre" placeholder="Nombre" type="text" onChange={handleChangeNewUsuario} required /><br />
                             <input className="inputUsuarioEditarAdmin" name="apellidos" placeholder="Apellidos" type="text" onChange={handleChangeNewUsuario} required /><br />
-                            <input className="inputUsuarioEditarAdmin" name="telefono" placeholder="Teléfono" type="text" onChange={handleChangeNewUsuario} required /><br />
                             <input className="inputUsuarioEditarAdmin" name="correo" placeholder="Correo" type="email" onChange={handleChangeNewUsuario} required /><br />
                             <div className="inputsUsuariosSelectEditar">
                             <input className="inputUsuarioEditarAdmin selectClaveUsuariosEditar" name="clave" placeholder="Clave" type="text" onChange={handleChangeNewUsuario} required />
