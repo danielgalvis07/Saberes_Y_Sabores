@@ -70,7 +70,6 @@ const UsuariosAdmin = () => {
                         <td className="tituloCrudUsuarios">Id</td>
                         <td className="tituloCrudUsuarios">Nombre</td>
                         <td className="tituloCrudUsuarios">Apellidos</td>
-                        <td className="tituloCrudUsuarios">Telefono</td>
                         <td className="tituloCrudUsuarios">correo</td>
                         <td className="tituloCrudUsuarios">Clave</td>
                         <td className="tituloCrudUsuarios">Rol</td>

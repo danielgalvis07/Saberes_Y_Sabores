@@ -26,6 +26,7 @@ const RecetasAdmin = () => {
     const [editMode, setEditMode] = useState(false);
     const [showVerMasModal, setShowVerMasModal] = useState(false);
     const [showEditarModal, setShowEditarModal] = useState(false);
+    const [showNuevoModal, setShowNuevoModal] = useState(false); // Nuevo estado para el modal de nueva receta
 
     const toggleActivo = (id) => {
         setDataRecetas((prevData) =>
@@ -55,14 +56,27 @@ const RecetasAdmin = () => {
         setShowEditarModal(false);
     };
 
+    const handleNuevoReceta = () => {
+        setShowNuevoModal(true); // Mostrar el modal para crear nueva receta
+    };
+
+    const handleCloseNuevoModal = () => {
+        setShowNuevoModal(false); // Cerrar el modal de nueva receta
+    };
+
     return (
         <div className="recetasAdmin">
             <NavAdmin />
             <MenuLateral />
             <h1>Recetas</h1>
             <input type="text" className="buscarRecetasAdmin"/>
-            <button  className="botonBuscarRecetasAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-            <button></button>
+            <button 
+                className="nuevaRecetaAdmin" 
+                onClick={handleNuevoReceta} // Abrir el modal de nueva receta
+            >
+                Registrar receta
+            </button>
+
             <table className="crudRecetasAdmin">
                 <thead>
                     <tr>
@@ -106,7 +120,7 @@ const RecetasAdmin = () => {
                         <h2>Detalles de la Receta</h2>
                         <p><strong>Nombre:</strong> {selectedReceta?.nombre}</p>
                         <p><strong>Ingredientes:</strong> {selectedReceta?.ingredientes}</p>
-                        <p><strong>descripcion:</strong> {selectedReceta?.descripcion}</p>
+                        <p><strong>Descripcion:</strong> {selectedReceta?.descripcion}</p>
                     </div>
                 </div>
             )}
@@ -127,8 +141,26 @@ const RecetasAdmin = () => {
                     </div>
                 </div>
             )}
-        </div>
-    );
-};
 
-export default RecetasAdmin;
+            {/* Modal para "Nueva receta" */}
+            {showNuevoModal && (
+                <div className="modal-overlay" onClick={handleCloseNuevoModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="close-modal" onClick={handleCloseNuevoModal}>X</button>
+                        <h2>Registrar Nueva Receta</h2>
+                        <form className="formularioEditarRecetasAdmin">
+                            <input className="inputRecetaEditarAdmin" placeholder="Nombre" type="text" /><br />
+                            <input className="inputRecetaEditarAdmin" placeholder="Ingredientes" type="text" /><br />
+                            <input className="inputRecetaEditarAdmin" placeholder="Descripcion" type="text" /><br />
+                            <input className="inputRecetaEditarAdmin" placeholder="Adjuntar foto" type="text" /><FontAwesomeIcon icon={faImages} className="iconoFotoRecetasAdmin"/>
+                            <button type="submit" className="botonEditarRecetasAdmin">Registrar Receta</button>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+
+    );
+}
+
+export default RecetasAdmin

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faImages } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-// import '../estilos/ProductosAdmin.css';
+import '../../estilos/ProductosAdmin.css';
 import MenuLateral from '../../componentes/sidebar';
 import NavAdmin from '../../componentes/navegacionAdmin';
 
@@ -26,6 +26,8 @@ const ProductosAdmin = () => {
     const [editMode, setEditMode] = useState(false);
     const [showVerMasModal, setShowVerMasModal] = useState(false);
     const [showEditarModal, setShowEditarModal] = useState(false);
+    const [showNuevoModal, setShowNuevoModal] = useState(false); // Nuevo estado para el modal de nueva receta
+
 
     const toggleActivo = (id) => {
         setDataProductos((prevData) =>
@@ -55,6 +57,15 @@ const ProductosAdmin = () => {
         setShowEditarModal(false);
     };
 
+    const handleNuevoProducto = () => {
+        setShowNuevoModal(true); // Mostrar el modal para crear nuevo producto
+    };
+
+    const handleCloseNuevoModal = () => {
+        setShowNuevoModal(false); // Cerrar el modal de nuevo producto
+    };
+
+
     return (
         <div className="ProductosAdmin">
             <NavAdmin />
@@ -62,13 +73,18 @@ const ProductosAdmin = () => {
             <h1>Productos</h1>
             <input type="text" className="buscarProductosAdmin"/>
             <button  className="botonBuscarProductosAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-            <button></button>
-            <table className="crudProductosAdmin">
+            <button 
+                className="nuevaRecetaAdmin" 
+                onClick={handleNuevoProducto} // Abrir el modal de nuevo producto
+            >
+                Registrar producto
+            </button>
+                        <table className="crudProductosAdmin">
                 <thead>
                     <tr>
                         <td className="tituloCrudProductos">Id</td>
                         <td className="tituloCrudProductos">Nombre</td>
-                        <td className="tituloCrudProductos">Ingredientes</td>
+                        <td className="tituloCrudProductos">Cantidad</td>
                         <td className="tituloCrudProductos"></td>
                         <td className="tituloCrudProductos">Acciones</td>
                     </tr>
@@ -123,6 +139,21 @@ const ProductosAdmin = () => {
                             <input className="inputProductoEditarAdmin" placeholder="Descripcion" type="text" /><br />
                             <input className="inputProductoEditarAdmin" placeholder="Adjuntar foto" type="text" /><FontAwesomeIcon icon={faImages} className="iconoFotoProductosAdmin"/>
                             <button type="submit" className="botonEditarProductosAdmin">Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+                )}
+
+                 {/* Modal para "Nueva receta" */}
+            {showNuevoModal && (
+                <div className="modal-overlay" onClick={handleCloseNuevoModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="close-modal" onClick={handleCloseNuevoModal}>X</button>
+                        <h2>Registrar Nuevo producto</h2>
+                        <form className="formularioEditarRecetasAdmin">
+                           
+                            <input className="inputRecetaEditarAdmin" placeholder="Adjuntar foto" type="text" /><FontAwesomeIcon icon={faImages} className="iconoFotoRecetasAdmin"/>
+                            <button type="submit" className="botonEditarRecetasAdmin">Registrar Receta</button>
                         </form>
                     </div>
                 </div>
