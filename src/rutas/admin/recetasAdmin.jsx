@@ -151,9 +151,9 @@ const RecetasAdmin = () => {
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-modal" onClick={() => setShowVerMasModal(false)}>X</button>
                         <h2>Detalles de la Receta</h2>
-                        <p><strong>Nombre:</strong> {selectedReceta?.nombre}</p>
+                        <p><strong>Nombre:</strong> {selectedReceta?.Nombre}</p>
                         <p><strong>Ingredientes:</strong> {selectedReceta?.ingredientes}</p>
-                        <p><strong>Descripcion:</strong> {selectedReceta?.descripcion}</p>
+                        <p><strong>Descripcion:</strong> {selectedReceta?.Descripcion}</p>
                     </div>
                 </div>
             )}
@@ -181,7 +181,7 @@ const RecetasAdmin = () => {
                                 value={selectedReceta?.Descripcion || ''}
                                 onChange={(e) => setSelectedReceta({ ...selectedReceta, Descripcion: e.target.value })}
                             /><br />
-                            <input className="inputRecetaEditarAdmin" placeholder="Adjuntar foto" type="text" /><FontAwesomeIcon icon={faImages} className="iconoFotoRecetasAdmin"/>
+                            <input className="inputRecetaEditarAdmin"  type="file" /><FontAwesomeIcon icon={faImages} className="iconoFotoRecetasAdmin"/>
                             <button type="submit" className="botonEditarRecetasAdmin">Guardar Cambios</button>
                         </form>
                     </div>

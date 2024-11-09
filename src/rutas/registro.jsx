@@ -7,12 +7,15 @@ const Registro = () => {
     const [apellido, setApellido] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const rol = 1
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
 
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = { nombre, apellido, email, password };
+        const data = { nombre, apellido, email, password, rol };
         try {
             const response = await fetch('http://localhost:5000/registro_usuario', {
                 method: 'POST',
@@ -71,6 +74,11 @@ const Registro = () => {
                         name="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <input
+                        type="hidden"
+                        name="rol"
+                        value={rol} 
                     />
                 </div>
                 <div className="botonesRegistro">

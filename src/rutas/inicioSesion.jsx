@@ -21,20 +21,33 @@ const InicioSesion = () => {
                 },
                 body: JSON.stringify(data),
             });
-
+    
             const result = await response.json();
-
+    
             if (response.status === 200) {
-                navigate('/recetasAdmin');
+                // Aquí obtenemos el rol desde la respuesta
+                const { rol } = result;
+    
+                // Redirigimos dependiendo del rol
+                if (rol === 1) {
+                    navigate('/principioAdmin'); // Admin
+                } else if (rol === 2) {
+                    navigate('/principioVendedor'); // vendedor
+                } else if (rol === 3) {
+                    navigate('/tiendaPrincipio'); // usuario
+                } else {
+                    setErrorMessage('Rol desconocido');
+                }
             } else {
                 setErrorMessage(result.message || 'Error al iniciar sesión');
-                alert("Usuario o Contraseña incorrectoss")
+                alert("Usuario o Contraseña incorrectos");
             }
         } catch (error) {
             setErrorMessage('Error de red. Intenta nuevamente más tarde.');
             console.error('Error:', error);
         }
     };
+    
 
     return (
         <div className="contenedor">

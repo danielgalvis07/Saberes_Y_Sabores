@@ -13,11 +13,19 @@ const ToggleSwitch = ({ isActive, onToggle }) => (
 );
 
 const UsuariosAdmin = () => {
+    const [nombre, setNombre] = useState('');
+    const [apellido, setApellido] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [rol, setRol] = useState('');
     const [dataUsuarios, setDataUsuarios] = useState([]);
     const [selectedUsuario, setSelectedUsuario] = useState(null);
     const [showEditarModal, setShowEditarModal] = useState(false);
     const [showNuevoModal, setShowNuevoModal] = useState(false);
+    
     const navigate = useNavigate();
+
+    // mostrar usuarios
 
     useEffect(() => {
         fetch('http://localhost:5000/usuarios')
@@ -25,6 +33,8 @@ const UsuariosAdmin = () => {
             .then(data => setDataUsuarios(data))
             .catch(error => console.error('Error al obtener usuarios:', error));
     }, []);
+
+    // editar usuarios
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,9 +65,29 @@ const UsuariosAdmin = () => {
         }
     };
 
-    const handleChangeNewUsuario = (e) => {
-        const { name, value } = e.target;
-        setSelectedUsuario((prevUsuario) => ({ ...prevUsuario, [name]: value }));
+    const crearUsuario = async (e) => {
+        e.preventDefault();
+        const data = { nombre, apellido, email, password, rol };
+        try {
+            const response = await fetch('http://localhost:5000/registro_usuario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (response.status === 200) {
+                alert('Usuario Registrado correctamente');
+                navigate('/usuariosAdmin');
+            } else {
+                console.error('Error:', result.message || 'Error al registrarse');
+            }
+        } catch (error) {
+            console.error('Error de red. Intenta nuevamente más tarde.', error);
+        }
     };
 
     const handleEditar = (usuario) => {
@@ -73,14 +103,29 @@ const UsuariosAdmin = () => {
         );
     };
 
+    const handleNuevoReceta = () => {
+        setShowNuevoModal(true); // Mostrar el modal para crear nueva receta
+    };
+
+    const handleCloseNuevoModal = () => {
+        setShowNuevoModal(false); // Cerrar el modal de nueva receta
+    };
+
+
     return (
         <div className="UsuariosAdmin">
             <NavAdmin />
             <MenuLateral />
             <h1>Usuarios</h1>
             <input type="text" className="buscarUsuariosAdmin" />
-            <button className="botonBuscarUsuariosAdmin">
+            <button className="botonBuscarUsuariosAdmin" >
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
+            <button 
+                className="nuevaRecetaAdmin" 
+                onClick={handleNuevoReceta} // Abrir el modal de nueva receta
+            >
+                Registrar usuario
             </button>
             <table className="crudUsuariosAdmin">
                 <thead>
@@ -168,6 +213,61 @@ const UsuariosAdmin = () => {
                     </div>
                 </div>
             )}
+
+            {/* modal para usuario nuevo */}
+            {showNuevoModal && (
+                <div className="modal-overlay" onClick={handleCloseNuevoModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="close-modal" onClick={handleCloseNuevoModal}>X</button>
+                        <h2>Registrar Nuevo Usuario</h2>
+                        <form className="formularioEditarRecetasAdmin" onSubmit={crearUsuario} >
+                            <input
+                                placeholder="Ingrese nombre"
+                                className="inputUsuarioEditarAdmin"
+                                name="nombre"
+                                type="text"
+                                value={nombre}
+                                onChange={(e) => setNombre(e.target.value)}
+                            /><br />
+                            <input
+                                placeholder="Ingrese apellidos"
+                                className="inputUsuarioEditarAdmin"
+                                name="apellido"
+                                type="text"
+                                value={apellido}
+                                onChange={(e) => setApellido(e.target.value)}
+                            /><br />
+                            <input
+                                placeholder="Ingrese correo"
+                                className="inputUsuarioEditarAdmin"
+                                name="email"
+                                type="text"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            /><br />
+                            <input
+                                name="password"
+                                placeholder="Ingrese clave"
+                                className="inputUsuarioEditarAdmin selectClaveUsuariosEditar"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            /><br />
+                            <select
+                                name="rol"
+                                className="selectUsuarioEditarAdmin selectClaveUsuariosEditar"
+                                value={rol}
+                                onChange={(e) => setRol(e.target.value)}
+                            >
+                                <option value="1">Admin</option>
+                                <option value="2">Usuario</option>
+                                <option value="3">Vendedor</option>
+                            </select>
+                            <button type="submit" className="botonEditarRecetasAdmin">Registrar Usuario</button>
+                        </form>
+                    </div>
+                </div>
+                    )}
         </div>
     );
 };
