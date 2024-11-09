@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
@@ -8,11 +8,7 @@ import '../../estilos/recetasAdmin.css';
 import MenuLateral from '../../componentes/sidebar';
 import NavAdmin from '../../componentes/navegacionAdmin';
 
-const initialDataRecetas = [
-    { id: 1, nombre: 'sancocho', ingredientes: 'papa, pollo y yuca', descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, eligendi enim mollitia odit facere quis quibusdam distinctio quam architecto dolorum asperiores velit sed temporibus recusandae sit ex rem, ducimus expedita!', activo: true },
-    { id: 2, nombre: 'arroz con pollo', ingredientes: 'arroz, pollo y vegetales', descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, eligendi enim mollitia odit facere quis quibusdam distinctio quam architecto dolorum asperiores velit sed temporibus recusandae sit ex rem, ducimus expedita!', activo: true },
-    { id: 3, nombre: 'empanadas', ingredientes: ' carne y queso', descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, eligendi enim mollitia odit facere quis quibusdam distinctio quam architecto dolorum asperiores velit sed temporibus recusandae sit ex rem, ducimus expedita!', activo: true }
-];
+
 
 const ToggleSwitch = ({ isActive, onToggle }) => (
     <div className={`toggle-switch ${isActive ? 'active' : ''}`} onClick={onToggle}>
@@ -21,12 +17,22 @@ const ToggleSwitch = ({ isActive, onToggle }) => (
 );
 
 const RecetasAdmin = () => {
-    const [dataRecetas, setDataRecetas] = useState(initialDataRecetas);
+    const [dataRecetas, setDataRecetas] = useState([]);
     const [selectedReceta, setSelectedReceta] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [showVerMasModal, setShowVerMasModal] = useState(false);
     const [showEditarModal, setShowEditarModal] = useState(false);
     const [showNuevoModal, setShowNuevoModal] = useState(false); // Nuevo estado para el modal de nueva receta
+
+    useEffect(() => {
+        // Llamada a la API para obtener usuarios
+        fetch('http://localhost:5000/recetas')
+            .then(response => response.json())
+            .then(data => setDataRecetas(data))
+            .catch(error => console.error('Error al obtener recetas:', error));
+    },[]);
+
+
 
     const toggleActivo = (id) => {
         setDataRecetas((prevData) =>
@@ -91,8 +97,8 @@ const RecetasAdmin = () => {
                     {dataRecetas.map((item) => (
                         <tr key={item.id} style={{ opacity: item.activo ? 1 : 0.5 }}>
                             <td>{item.id}</td>
-                            <td>{item.nombre}</td>
-                            <td>{item.ingredientes}</td>
+                            <td>{item.Nombre}</td>
+                            <td>{item.Descripcion}</td>
                             <td>
                                 <button className="verMasRecetasAdmin" onClick={() => handleVerMas(item)}>
                                     Ver más
