@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import '../../estilos/usuariosAdmin.css';
 import MenuLateral from '../../componentes/sidebar';
 import NavAdmin from '../../componentes/navegacionAdmin';
-
-
 
 const ToggleSwitch = ({ isActive, onToggle }) => (
     <div className={`toggle-switch ${isActive ? 'active' : ''}`} onClick={onToggle}>
@@ -17,6 +16,8 @@ const ToggleSwitch = ({ isActive, onToggle }) => (
 const UsuariosAdmin = () => {
     const [dataUsuarios, setDataUsuarios] = useState([]);
     const [selectedUsuario, setSelectedUsuario] = useState(null);
+    const [editMode, setEditMode] = useState(false);
+    const [showVerMasModal, setShowVerMasModal] = useState(false);
     const [showEditarModal, setShowEditarModal] = useState(false);
     const [showNuevoModal, setShowNuevoModal] = useState(false); 
     const [newUsuario, setNewUsuario] = useState({
@@ -30,8 +31,6 @@ const UsuariosAdmin = () => {
         activo: true,
     });
 
-
-
     const toggleActivo = (id) => {
         setDataUsuarios((prevData) =>
             prevData.map((item) =>
@@ -40,59 +39,24 @@ const UsuariosAdmin = () => {
         );
     };
 
-    const handleEditar = (usuario) => {
-        setSelectedUsuario({ ...usuario });
-        setShowEditarModal(true);
+    const handleVerMas = (Usuario) => {
+        setSelectedUsuario(Usuario);
+        setShowVerMasModal(true);
     };
 
-    const handleChangeEditUsuario = (e) => {
-        const { name, value } = e.target;
-        setSelectedUsuario((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+    const handleEditar = (Usuario) => {
+        setSelectedUsuario(Usuario);
+        setEditMode(true);
+        setShowEditarModal(true);
     };
 
     const handleUpdateUsuario = (e) => {
         e.preventDefault();
-        setDataUsuarios((prevData) =>
-            prevData.map((usuario) =>
-                usuario.id === selectedUsuario.id ? selectedUsuario : usuario
-            )
+        const updatedUsuarios = dataUsuarios.map((Usuario) =>
+            Usuario.id === selectedUsuario.id ? selectedUsuario : Usuario
         );
+        setDataUsuarios(updatedUsuarios);
         setShowEditarModal(false);
-    };
-
-    const handleNuevoUsuario = () => {
-        setShowNuevoModal(true); 
-    };
-
-    const handleCloseNuevoModal = () => {
-        setShowNuevoModal(false); 
-    };
-
-    const handleChangeNewUsuario = (e) => {
-        const { name, value } = e.target;
-        setNewUsuario((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-
-    const handleCreateUsuario = (e) => {
-        e.preventDefault();
-        setDataUsuarios([...dataUsuarios, { ...newUsuario, id: dataUsuarios.length + 1 }]);
-        setShowNuevoModal(false);
-        setNewUsuario({
-            id: dataUsuarios.length + 2,
-            nombre: "",
-            apellidos: "",
-            telefono: "",
-            correo: "",
-            clave: "",
-            rol: "1",
-            activo: true,
-        });
     };
 
     return (
@@ -102,15 +66,14 @@ const UsuariosAdmin = () => {
             <h1>Usuarios</h1>
             <input type="text" className="buscarUsuariosAdmin"/>
             <button className="botonBuscarUsuariosAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-            <button className="nuevaRecetaAdmin" onClick={handleNuevoUsuario}>
-                Registrar usuario
-            </button>
+            <button></button>
             <table className="crudUsuariosAdmin">
                 <thead>
                     <tr>
                         <td className="tituloCrudUsuarios">Id</td>
                         <td className="tituloCrudUsuarios">Nombre</td>
                         <td className="tituloCrudUsuarios">Apellidos</td>
+                        <td className="tituloCrudUsuarios">Telefono</td>
                         <td className="tituloCrudUsuarios">Correo</td>
                         <td className="tituloCrudUsuarios">Clave</td>
                         <td className="tituloCrudUsuarios">Rol</td>
@@ -140,7 +103,8 @@ const UsuariosAdmin = () => {
                 </tbody>
             </table>
 
-            {showEditarModal && selectedUsuario && (
+            {/* Modal para "Editar" */}
+            {showEditarModal && (
                 <div className="modalEditarUsuariosAdmin" onClick={() => setShowEditarModal(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-modal" onClick={() => setShowEditarModal(false)}>X</button>
@@ -148,12 +112,13 @@ const UsuariosAdmin = () => {
                         <form onSubmit={handleUpdateUsuario} className="formularioEditarUsuariosAdmin">
                             <input className="inputUsuarioEditarAdmin" name="nombre" value={selectedUsuario.nombre} placeholder="Nombre" type="text" onChange={handleChangeEditUsuario} /><br />
                             <input className="inputUsuarioEditarAdmin" name="apellidos" value={selectedUsuario.apellidos} placeholder="Apellidos" type="text" onChange={handleChangeEditUsuario} /><br />
+                            <input className="inputUsuarioEditarAdmin" name="telefono" value={selectedUsuario.telefono} placeholder="Telefono" type="text" onChange={handleChangeEditUsuario} /><br />
                             <input className="inputUsuarioEditarAdmin" name="correo" value={selectedUsuario.correo} placeholder="Correo" type="text" onChange={handleChangeEditUsuario} /><br />
                             <div className="inputsUsuariosSelectEditar">
-                                <input className="selectClaveUsuariosEditar inputUsuarioEditarAdmin" name="clave" value={selectedUsuario.clave} placeholder="Clave" type="text" onChange={handleChangeEditUsuario} /><br />
-                                <select className="selectClaveUsuariosEditar selectUsuarioEditarAdmin" name="rol" value={selectedUsuario.rol} onChange={handleChangeEditUsuario}>
+                                <input className="inputUsuarioEditarAdmin selectClaveUsuariosEditar" placeholder="Clave" type="text" value={selectedUsuario?.clave} onChange={(e) => setSelectedUsuario({ ...selectedUsuario, clave: e.target.value })} /><br />
+                                <select name="Rol" className="selectUsuarioEditarAdmin selectClaveUsuariosEditar" value={selectedUsuario?.rol} onChange={(e) => setSelectedUsuario({ ...selectedUsuario, rol: e.target.value })}>
                                     <option value="1">Admin</option>
-                                    <option value="2">Usuario</option>
+                                    <option value="2">Usuarios</option>
                                     <option value="3">Vendedor</option>
                                 </select>
                             </div>
@@ -171,6 +136,7 @@ const UsuariosAdmin = () => {
                         <form onSubmit={handleCreateUsuario} className="formularioEditarUsuariosAdmin">
                             <input className="inputUsuarioEditarAdmin" name="nombre" placeholder="Nombre" type="text" onChange={handleChangeNewUsuario} required /><br />
                             <input className="inputUsuarioEditarAdmin" name="apellidos" placeholder="Apellidos" type="text" onChange={handleChangeNewUsuario} required /><br />
+                            <input className="inputUsuarioEditarAdmin" name="telefono" placeholder="Teléfono" type="text" onChange={handleChangeNewUsuario} required /><br />
                             <input className="inputUsuarioEditarAdmin" name="correo" placeholder="Correo" type="email" onChange={handleChangeNewUsuario} required /><br />
                             <div className="inputsUsuariosSelectEditar">
                             <input className="inputUsuarioEditarAdmin selectClaveUsuariosEditar" name="clave" placeholder="Clave" type="text" onChange={handleChangeNewUsuario} required />

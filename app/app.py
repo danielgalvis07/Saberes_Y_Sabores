@@ -30,6 +30,32 @@ def registro_usuario():
     except Exception as err:
         return jsonify({"message":f"No funciono el registro {err}"}), 400
 
+
+@app.route('/usuarios', methods=['GET'])
+def obtener_usuarios():
+    conexion = db.connect()
+    cursor = conexion.cursor()
+    sql = "SELECT IdUsuario, nombre, apellido, Email, Password, Rol FROM usuarios"
+    cursor.execute(sql)
+    resultado = cursor.fetchall()
+    cursor.close()
+    db.close()
+    
+    usuarios = []
+    for row in resultado:
+        usuario = {
+            "id": row[0],
+            "nombre": row[1],
+            "apellidos": row[2],
+            "correo": row[3].decode('utf-8') if isinstance(row[3], bytes) else row[3],
+            "clave": row[4].decode('utf-8') if isinstance(row[4], bytes) else row[4],
+            "rol": row[5],
+            "activo": True  # Suponiendo que todos los usuarios están activos por defecto
+        }
+        usuarios.append(usuario)
+    
+    return jsonify(usuarios), 200
+
 @app.route('/validar_usuario', methods=['POST'])
 def validar_usuario():
     data = request.get_json()  # Obtener los datos JSON del frontend
