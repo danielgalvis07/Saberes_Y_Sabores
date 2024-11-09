@@ -63,7 +63,7 @@ const InicioSesion = () => {
                         <br />
                     </div>
                     {errorMessage && <p className="error">{errorMessage}</p>}
-                    <div className="contenedorBonotes">
+                    <div className="contenedorBonotesInicioSesion">
                         <Link to="/" className="botonVolverinicio">
                             <button type="button" className="botones botonVolverInicio">Volver</button>
                         </Link>

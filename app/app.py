@@ -6,6 +6,7 @@ app = Flask(__name__)
 CORS(app)  # Habilita CORS para toda la aplicación
 
 
+
 db = Database()
 
 @app.route('/registro_usuario', methods=['POST'])
@@ -104,14 +105,30 @@ def validar_usuario():
        
 @app.route('/actualizar_usuario', methods=['POST'])
 def actualizar_usuarios():
+    data = request.get_json()
+
+    id_usuario = data.get("id")
+    nombre = data.get("nombre")
+    apellidos = data.get("apellidos")
+    correo = data.get("correo")
+    clave = data.get("clave")
+    rol = data.get("rol")
+
     conexion = db.connect()
     cursor = conexion.cursor()
+
+    # Actualizar el usuario en la base de datos
     sql = "UPDATE usuarios SET nombre=%s, apellido=%s, Email=%s, Password=%s, Rol=%s WHERE IdUsuario = %s"
-    cursor.execute(sql)
+    cursor.execute(sql, (nombre, apellidos, correo, clave, rol, id_usuario))
+    conexion.commit()
+
+    # Consultar los usuarios actualizados para devolver la lista completa
+    cursor.execute("SELECT IdUsuario, nombre, apellido, Email, Password, Rol FROM usuarios")
     resultado = cursor.fetchall()
     cursor.close()
-    db.close()
-    
+    conexion.close()
+
+    # Construir la respuesta JSON con la lista de usuarios
     usuarios = []
     for row in resultado:
         usuario = {
@@ -120,12 +137,48 @@ def actualizar_usuarios():
             "apellidos": row[2],
             "correo": row[3].decode('utf-8') if isinstance(row[3], bytes) else row[3],
             "clave": row[4].decode('utf-8') if isinstance(row[4], bytes) else row[4],
-            "rol": row[5],
-            "activo": True  # Suponiendo que todos los usuarios están activos por defecto
+            "rol": row[5]
         }
         usuarios.append(usuario)
-    
+
     return jsonify(usuarios), 200
+
+@app.route('/actualizar_receta', methods=['POST'])
+def actualizar_recetas():
+    data = request.get_json()
+
+    id_receta = data.get("id")
+    Nombre = data.get("Nombre")
+    Descripcion = data.get("Descripcion")
+
+
+    conexion = db.connect()
+    cursor = conexion.cursor()
+
+    # Actualizar el usuario en la base de datos
+    sql = "UPDATE recetas SET Nombre=%s, Descripcion=%s WHERE IdReceta = %s"
+    cursor.execute(sql, (Nombre, Descripcion, id_receta))
+    conexion.commit()
+
+    # Consultar los usuarios actualizados para devolver la lista completa
+    cursor.execute("SELECT IdReceta, Nombre, Descripcion FROM recetas")
+    resultado = cursor.fetchall()
+    cursor.close()
+    conexion.close()
+
+    # Construir la respuesta JSON con la lista de usuarios
+
+    recetas = []
+    for row in resultado:
+        receta = {
+            "id": row[0],
+            "Nombre": row[1],
+            "Descripcion": row[2],
+            "activo": True  # Suponiendo que todos los recetas están activos por defecto
+        }
+        recetas.append(receta)
+
+    return jsonify(recetas), 200
 
 
 if __name__ == '__main__':
