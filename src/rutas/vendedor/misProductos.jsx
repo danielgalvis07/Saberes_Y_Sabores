@@ -18,32 +18,24 @@ const MisProductos = () => {
             <NavVendedor />
             <MenuLateral />
             <h1>MIS PRODUCTOS</h1>
-            <table className="vendedorCrudSemillas">
-                <thead>
-                    <tr>
-                        <td>
-                            id
-                        </td>
-                        <td>
-                            Nombre
-                        </td>
-                        <td>
-                            Imagen
-                        </td>   
-                    </tr>
-                </thead>
-                <tbody>
-                {dataProductos.map((item) => (
-                    <tr key={item.id} style={{ opacity: item.activo ? 1 : 0.5 }}>
-                        <td>{item.id}</td>
-                        <td>{item.nombre}</td>
-                        <td>{item.imagen}</td>
+            <div className="crudVendedorSemillas">
 
-                    </tr>
+                {dataProductos.map((item) => (
+                    <div className="cardMisProductos" key={item.id}>
+                    <td className="nombreMisProductos">{item.nombre}</td>
+                    <td className="inventarioMisProductos">7</td>
+                    <td>
+                            <img 
+                                className="imagenMisProductos"
+                                src={item.imagen} 
+                                alt={item.nombre} 
+                                />
+                        </td>
+                    <button className="verMasMisProductos">Ver más</button>
+                    </div>
                 ))}
 
-                </tbody>
-            </table>
+  </div>
         </div>
 
 )

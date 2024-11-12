@@ -34,7 +34,7 @@ const InicioSesion = () => {
                 } else if (rol === 2) {
                     navigate('/principioVendedor'); // vendedor
                 } else if (rol === 3) {
-                    navigate('/tiendaPrincipio'); // usuario
+                    navigate('/'); // usuario
                 } else {
                     setErrorMessage('Rol desconocido');
                 }

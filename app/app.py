@@ -171,11 +171,13 @@ def actualizar_recetas():
 
     return jsonify(recetas), 200
 
+# vendedor
+
 @app.route('/semillas', methods=['GET'])#MOSTRAR PRODUCTOS
 def obtener_semilla():
     conexion = get_db_connection()
     cursor = conexion.cursor()
-    sql = "SELECT IdSemilla NombreClientSemilla, imagen FROM semillas"
+    sql = "SELECT IdSemilla, NombreCientSemilla, imagen FROM semillas"
     cursor.execute(sql)
     resultado = cursor.fetchall()
     cursor.close()
@@ -185,14 +187,12 @@ def obtener_semilla():
         {
             "id": row[0],
             "nombre": row[1],
-            "imagen": row[2],
+            "imagen": row[2]
         }
         for row in resultado
     ]
     
-    return jsonify(semillas), 200
-
-# 
+    return jsonify(semillas),200
 
 if __name__ == '__main__':
     app.run(debug=True)
