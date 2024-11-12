@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
@@ -8,11 +8,6 @@ import '../../estilos/ProductosAdmin.css';
 import MenuLateral from '../../componentes/sidebar';
 import NavAdmin from '../../componentes/navegacionAdmin';
 
-const initialDataProductos = [
-    { id: 1, nombre: 'sancocho', ingredientes: 'papa, pollo y yuca', descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, eligendi enim mollitia odit facere quis quibusdam distinctio quam architecto dolorum asperiores velit sed temporibus recusandae sit ex rem, ducimus expedita!', activo: true },
-    { id: 2, nombre: 'arroz con pollo', ingredientes: 'arroz, pollo y vegetales', descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, eligendi enim mollitia odit facere quis quibusdam distinctio quam architecto dolorum asperiores velit sed temporibus recusandae sit ex rem, ducimus expedita!', activo: true },
-    { id: 3, nombre: 'empanadas', ingredientes: ' carne y queso', descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, eligendi enim mollitia odit facere quis quibusdam distinctio quam architecto dolorum asperiores velit sed temporibus recusandae sit ex rem, ducimus expedita!', activo: true }
-];
 
 const ToggleSwitch = ({ isActive, onToggle }) => (
     <div className={`toggle-switch ${isActive ? 'active' : ''}`} onClick={onToggle}>
@@ -21,14 +16,20 @@ const ToggleSwitch = ({ isActive, onToggle }) => (
 );
 
 const ProductosAdmin = () => {
-    const [dataProductos, setDataProductos] = useState(initialDataProductos);
+    const [dataProductos, setDataProductos] = useState([]);
     const [selectedProducto, setSelectedProducto] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [showVerMasModal, setShowVerMasModal] = useState(false);
     const [showEditarModal, setShowEditarModal] = useState(false);
     const [showNuevoModal, setShowNuevoModal] = useState(false); // Nuevo estado para el modal de nueva receta
+    useEffect(() => {
+        fetch('http://localhost:5000/semillas')
+            .then(response => response.json())
+            .then(data => setDataProductos(data))
+            .catch(error => console.error('Error al obtener productos:', error));
+    }, []);
 
-
+    
     const toggleActivo = (id) => {
         setDataProductos((prevData) =>
             prevData.map((item) =>
@@ -36,11 +37,9 @@ const ProductosAdmin = () => {
             )
         );
     };
+    
 
-    const handleVerMas = (Producto) => {
-        setSelectedProducto(Producto);
-        setShowVerMasModal(true);
-    };
+    
 
     const handleEditar = (Producto) => {
         setSelectedProducto(Producto);
@@ -65,7 +64,6 @@ const ProductosAdmin = () => {
         setShowNuevoModal(false); // Cerrar el modal de nuevo producto
     };
 
-
     return (
         <div className="ProductosAdmin">
             <NavAdmin />
@@ -84,7 +82,6 @@ const ProductosAdmin = () => {
                     <tr>
                         <td className="tituloCrudProductos">Id</td>
                         <td className="tituloCrudProductos">Nombre</td>
-                        <td className="tituloCrudProductos">Cantidad</td>
                         <td className="tituloCrudProductos"></td>
                         <td className="tituloCrudProductos">Acciones</td>
                     </tr>
@@ -95,11 +92,7 @@ const ProductosAdmin = () => {
                             <td>{item.id}</td>
                             <td>{item.nombre}</td>
                             <td>{item.ingredientes}</td>
-                            <td>
-                                <button className="verMasProductosAdmin" onClick={() => handleVerMas(item)}>
-                                    Ver más
-                                </button>
-                            </td>
+                            
                             <td className="accionesProductosAdmin">
                                 <NavLink className='actulizarProductos'>
                                     <FontAwesomeIcon icon={faPencil} onClick={() => handleEditar(item)} style={{ color: "#000000" }} />
