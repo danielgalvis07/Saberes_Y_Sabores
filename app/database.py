@@ -8,7 +8,7 @@ class Database:
             'user': 'root',
             'password': '',
             'host': 'localhost',
-            'database': 'semillas',
+            'database': 'semilla',
             'port': '3306'
         }
 

@@ -11,7 +11,9 @@ def get_db_connection():
     """Establece una nueva conexión a la base de datos y la devuelve."""
     return db.connect()
 
-@app.route('/registro_usuario', methods=['POST'])
+
+#----------------------------------------------------USUARIOS------------------------------------------------------
+@app.route('/registro_usuario', methods=['POST'])#REGISTAR
 def registro_usuario():
     print("accediendo a registro ruta")
     try:
@@ -33,7 +35,7 @@ def registro_usuario():
     except Exception as err:
         return jsonify({"message":f"No funciono el registro {err}"}), 400
 
-@app.route('/usuarios', methods=['GET'])
+@app.route('/usuarios', methods=['GET'])#MOSTRAR USUARIOS
 def obtener_usuarios():
     conexion = get_db_connection()
     cursor = conexion.cursor()
@@ -58,29 +60,7 @@ def obtener_usuarios():
     
     return jsonify(usuarios), 200
 
-@app.route('/recetas', methods=['GET'])
-def obtener_recetas():
-    conexion = get_db_connection()
-    cursor = conexion.cursor()
-    sql = "SELECT IdReceta, Nombre, Descripcion FROM recetas"
-    cursor.execute(sql)
-    resultado = cursor.fetchall()
-    cursor.close()
-    conexion.close()
-    
-    recetas = [
-        {
-            "id": row[0],
-            "Nombre": row[1],
-            "Descripcion": row[2],
-            "activo": True
-        }
-        for row in resultado
-    ]
-    
-    return jsonify(recetas), 200
-
-@app.route('/validar_usuario', methods=['POST'])
+@app.route('/validar_usuario', methods=['POST'])# VALIDAR USUARIOS
 def validar_usuario():
     data = request.get_json()
     email = data.get('email')
@@ -107,7 +87,7 @@ def validar_usuario():
         return jsonify({"message": "Error de autenticación"}), 401
 
 
-@app.route('/actualizar_usuario', methods=['POST'])
+@app.route('/actualizar_usuario', methods=['POST'])#ACTUALIZAR USUARIOS
 def actualizar_usuarios():
     data = request.get_json()
     id_usuario = data.get("id")
@@ -139,8 +119,31 @@ def actualizar_usuarios():
     ]
 
     return jsonify(usuarios), 200
+#-------------------------------------------------------------RECETAS-----------------------
 
-@app.route('/actualizar_receta', methods=['POST'])
+@app.route('/recetas', methods=['GET'])
+def obtener_recetas():
+    conexion = get_db_connection()
+    cursor = conexion.cursor()
+    sql = "SELECT IdReceta, Nombre, Descripcion FROM recetas"
+    cursor.execute(sql)
+    resultado = cursor.fetchall()
+    cursor.close()
+    conexion.close()
+    
+    recetas = [
+        {
+            "id": row[0],
+            "Nombre": row[1],
+            "Descripcion": row[2],
+            "activo": True
+        }
+        for row in resultado
+    ]
+    
+    return jsonify(recetas), 200
+
+@app.route('/actualizar_receta', methods=['POST'])#----------------------ACTUALIZAR RECETA
 def actualizar_recetas():
     data = request.get_json()
     id_receta = data.get("id")
@@ -167,6 +170,27 @@ def actualizar_recetas():
     ]
 
     return jsonify(recetas), 200
+
+@app.route('/semillas', methods=['GET'])#MOSTRAR PRODUCTOS
+def obtener_semilla():
+    conexion = get_db_connection()
+    cursor = conexion.cursor()
+    sql = "SELECT IdSemilla NombreClientSemilla, imagen FROM semillas"
+    cursor.execute(sql)
+    resultado = cursor.fetchall()
+    cursor.close()
+    conexion.close()
+    
+    semillas = [
+        {
+            "id": row[0],
+            "nombre": row[1],
+            "imagen": row[2],
+        }
+        for row in resultado
+    ]
+    
+    return jsonify(semillas), 200
 
 # 
 
