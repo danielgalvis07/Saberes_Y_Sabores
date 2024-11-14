@@ -16,7 +16,7 @@ const Nav = () => {
                         </NavLink>
                         <NavLink className='link' to='/inicioSesion'>Inicio</NavLink>
                         <NavLink className='link' to='/registro'>Registro</NavLink>
-                        <NavLink className='link' to="/tiendaPrincipio">Tienda</NavLink>
+                        {/* <NavLink className='link' to="/tiendaPrincipio">Tienda</NavLink> */}
                         <NavLink className='link' to="/nosotros">Nosotros</NavLink>
                     </ul>
                 </nav>

@@ -1,5 +1,5 @@
 import React from "react";
-import "../estilos/misProductos.css"; // Archivo CSS para los estilos
+// import "../estilos/misProductos.css"; // Archivo CSS para los estilos
 
 const productos = [
   { url: 'https://encolombia.com/wp-content/uploads/2021/10/Cultivo-de-Calabaza-330x205.jpg', titulo: 'AUYAMA' },

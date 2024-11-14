@@ -1,5 +1,5 @@
 .crudVendedorSemillas{
-  margin-left: 25%;
+  margin-left: 21%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   
@@ -20,7 +20,7 @@
   font-size: 24px;
 }
 .imagenMisProductos{
-  width: 250px; 
+  width: 80%; 
   height: 170px;
   border-radius: 7px;
   object-fit: cover;

@@ -9,7 +9,8 @@ import UsuariosAdmin from './rutas/admin/usuariosAdmin'
 import PrincipioAdmin from './rutas/admin/inicioAdmin'
 import ProductosAdmin from './rutas/admin/productosAdmin'
 import  PrincipioVendedor from './rutas/vendedor/inicioVendedor'
-import  MisProductos from './rutas/vendedor/misProductos'
+import  MisSemillas from './rutas/vendedor/misSemillas'
+import  RecetasVendedor from './rutas/vendedor/recetasVendedor'
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
         <Route path="/productosAdmin" element={<ProductosAdmin />} />
         <Route path="/principioAdmin" element={<PrincipioAdmin />} />
         <Route path="/principioVendedor" element={<PrincipioVendedor />} />
-        <Route path="/misProductosVendedor" element={<MisProductos />} />
+        <Route path="/misSemillasVendedor" element={<MisSemillas />} />
+        <Route path="/recetasVendedor" element={<RecetasVendedor />} />
 
       </Routes>
     </Router>

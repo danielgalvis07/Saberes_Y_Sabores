@@ -191,5 +191,55 @@ def obtener_semilla():
     
     return jsonify(semillas),200
 
+#actualizar productos desde vendedor
+@app.route('/actualizar_producto', methods=['POST'])
+def actualizar_prosuctos():
+    data = request.get_json()
+    id_receta = data.get("id")
+    nombre = data.get("nombre")
+    imagen = data.get("imagen")
+    conexion = get_db_connection()
+    cursor = conexion.cursor()
+    sql = "UPDATE semillas SET NombreCientSemilla=%s, imagen=%s WHERE IdSemilla = %s"
+    cursor.execute(sql, (nombre, imagen, id_receta))
+    conexion.commit()
+    cursor.execute("SELECT IdSemilla, NombreCientSemilla, imagen FROM semillas")
+    resultado = cursor.fetchall()
+    cursor.close()
+    conexion.close()
+
+    semillas = [
+        {
+            "id": row[0],
+            "nombre": row[1],
+            "imagen": row[2]
+        }
+        for row in resultado
+    ]
+
+    return jsonify(semillas), 200
+
+#registro de productos desde vendedor
+@app.route('/registro_productos', methods=['POST'])
+def registro_producto():
+    print("accediendo a registro ruta")
+    try:
+        nombre = request.json.get('nombre')
+        imagen = request.json.get('imagen')
+        conexion = get_db_connection()
+        cursor = conexion.cursor()
+        sql = "INSERT INTO semillas (NombreCientSemilla, imagen) VALUES (%s, %s)"
+        valores = (nombre, imagen)
+        cursor.execute(sql, valores)
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+
+        return jsonify({"message": "producto registrado con éxito"}), 200
+    except Exception as err:
+        return jsonify({"message":f"No funciono el registro {err}"}), 400
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

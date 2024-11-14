@@ -204,8 +204,8 @@ const UsuariosAdmin = () => {
                                     onChange={(e) => setSelectedUsuario({ ...selectedUsuario, rol: e.target.value })}
                                 >
                                     <option value="1">Admin</option>
-                                    <option value="2">Usuario</option>
-                                    <option value="3">Vendedor</option>
+                                    <option value="2">Vendedor</option>
+                                    <option value="3">Usuario</option>
                                 </select>
                             </div>
                             <button type="submit" className="botonEditarUsuariosAdmin">Guardar Cambios</button>
@@ -226,6 +226,7 @@ const UsuariosAdmin = () => {
                                 className="inputUsuarioEditarAdmin"
                                 name="nombre"
                                 type="text"
+                                required
                                 value={nombre}
                                 onChange={(e) => setNombre(e.target.value)}
                             /><br />
@@ -234,6 +235,7 @@ const UsuariosAdmin = () => {
                                 className="inputUsuarioEditarAdmin"
                                 name="apellido"
                                 type="text"
+                                required
                                 value={apellido}
                                 onChange={(e) => setApellido(e.target.value)}
                             /><br />
@@ -242,6 +244,7 @@ const UsuariosAdmin = () => {
                                 className="inputUsuarioEditarAdmin"
                                 name="email"
                                 type="text"
+                                required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             /><br />
@@ -250,6 +253,7 @@ const UsuariosAdmin = () => {
                                 placeholder="Ingrese clave"
                                 className="inputUsuarioEditarAdmin selectClaveUsuariosEditar"
                                 type="password"
+                                required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             /><br />

@@ -17,9 +17,9 @@ const NavVendedor = () => {
                         <NavLink to="/principioVendedor">
                             <img src={logo} alt="Logo" className="imagenHeaderVendedor" />
                         </NavLink>
-                        <NavLink className='linkVendedor' to='/misProductosVendedor'>Mis productos</NavLink>
-                        <NavLink className='linkVendedor' to='/ordenesVendedor'>Ordenes</NavLink>
-                        <NavLink className='linkVendedor' to="/pilotosVendedor">Pilotos</NavLink>
+                        <NavLink className='linkVendedor' to='/misSemillasVendedor'>Mis productos</NavLink>
+                        {/* <NavLink className='linkVendedor' to='/ordenesVendedor'>Ordenes</NavLink> */}
+                        <NavLink className='linkVendedor' to="/recetasVendedor">Recetas</NavLink>
                         <NavLink className='linkVendedor' to="/tiendaVendedor">Tienda</NavLink>
                     </ul>
                         <div className="salirVendedor">
