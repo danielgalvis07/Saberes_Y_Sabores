@@ -145,6 +145,7 @@ def obtener_recetas():
 
 @app.route('/actualizar_receta', methods=['POST'])#----------------------ACTUALIZAR RECETA
 def actualizar_recetas():
+    print("actualizando")
     data = request.get_json()
     id_receta = data.get("id")
     Nombre = data.get("Nombre")
@@ -170,6 +171,32 @@ def actualizar_recetas():
     ]
 
     return jsonify(recetas), 200
+
+   #registro de productos admin
+
+@app.route('/registro_recetas', methods=['POST'])
+def registro_receta(): 
+    print("accediendoa registro ruta")
+    try:
+        data = request.get_json()
+        Nombre = data['Nombre']
+        Descripcion = data['Descripcion']
+        print(Nombre)
+        # Descripcion = data.get("Descripcion")
+        conexion = get_db_connection()
+        cursor = conexion.cursor()
+        sql = "INSERT INTO recetas (Nombre, Descripcion) VALUES (%s, %s)"
+        valores = (Nombre, Descripcion)
+        cursor.execute(sql, valores)
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+
+        return jsonify({"message": "receta registrado con éxito"}), 200
+    except Exception as err:
+        return jsonify({"message":f"No funciono el registro {err}"}), 400
+
+
 
 # vendedor
 
@@ -241,8 +268,6 @@ def registro_producto():
         return jsonify({"message": "producto registrado con éxito"}), 200
     except Exception as err:
         return jsonify({"message":f"No funciono el registro {err}"}), 400
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

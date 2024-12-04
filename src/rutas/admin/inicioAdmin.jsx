@@ -2,6 +2,7 @@ import React from "react";
 import '../../estilos/inicioAdmin.css';
 import NavAdmin from '../../componentes/navegacionAdmin'
 
+
 const PrincipioAdmin = () => {
   return (
 

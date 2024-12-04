@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import NavVendedor from '../../componentes/navegacioVendedor'
-import MenuLateral from '../../componentes/sidebar'
-import '../../estilos/misSemillas.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImages } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import NavVendedor from '../../componentes/navegacioVendedor'
+import MenuLateral from '../../componentes/sidebar'
+import InputSearch from '../../componentes/buscador';
+
+import '../../estilos/misSemillas.css'
 
 
 // import GaleriaMisProductos from '../../componentes/galeria'
@@ -106,8 +108,9 @@ const crearProducto = async (e) => {
             <NavVendedor />
             <MenuLateral />
             <h1>MIS SEMILLAS</h1>
-            <input type="text" className="buscarProductosAdmin"/>
-            <button  className="botonBuscarProductosAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            {/* <input type="text" className="buscarProductosAdmin"/>
+            <button  className="botonBuscarProductosAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button> */}
+            <InputSearch/>
             <button 
                 className="nuevaRecetaAdmin" 
                 onClick={handleNuevoProducto} // Abrir el modal de nuevo producto

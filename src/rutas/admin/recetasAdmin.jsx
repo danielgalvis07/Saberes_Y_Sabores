@@ -3,10 +3,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faImages } from '@fortawesome/free-solid-svg-icons';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import '../../estilos/recetasAdmin.css';
 import MenuLateral from '../../componentes/sidebar';
 import NavAdmin from '../../componentes/navegacionAdmin';
+import InputSearch from '../../componentes/buscador';
+
 
 
 
@@ -17,8 +18,12 @@ const ToggleSwitch = ({ isActive, onToggle }) => (
 );
 
 const RecetasAdmin = () => {
+
+    
     const [dataRecetas, setDataRecetas] = useState([]);
     const [selectedReceta, setSelectedReceta] = useState(null);
+    const [nombre, setNombre] = useState('')
+    const [descripcion, setDescripcion] = useState('')
     const [editMode, setEditMode] = useState(false);
     const [showVerMasModal, setShowVerMasModal] = useState(false);
     const [showEditarModal, setShowEditarModal] = useState(false);
@@ -59,7 +64,31 @@ const RecetasAdmin = () => {
         }
     };
 
-
+    const crearReceta = async (e) => {
+        e.preventDefault();
+        const data = { Nombre: nombre, Descripcion: descripcion };
+        try {
+            const response = await fetch('http://localhost:5000/registro_recetas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+    
+            if (response.ok) {
+                const newReceta = await response.json();
+                setDataRecetas([...dataRecetas, newReceta]);
+                setShowNuevoModal(false);
+                setNombre('');
+                setDescripcion('');
+                alert('Receta registrada correctamente');
+            } else {
+                console.error('Error:', result.message || 'Error al registrarse');
+            }
+        } catch (error) {
+            console.error('Error de red. Intenta nuevamente más tarde.', error);
+        }
+    };
+    
 
     const toggleActivo = (id) => {
         setDataRecetas((prevData) =>
@@ -102,7 +131,7 @@ const RecetasAdmin = () => {
             <NavAdmin />
             <MenuLateral />
             <h1>Recetas</h1>
-            <input type="text" className="buscarRecetasAdmin"/>
+            <InputSearch/>
             <button 
                 className="nuevaRecetaAdmin" 
                 onClick={handleNuevoReceta} // Abrir el modal de nueva receta
@@ -115,7 +144,7 @@ const RecetasAdmin = () => {
                     <tr>
                         <td className="tituloCrudRecetas">Id</td>
                         <td className="tituloCrudRecetas">Nombre</td>
-                        <td className="tituloCrudRecetas">Ingredientes</td>
+                        <td className="tituloCrudRecetas">Descripcion</td>
                         <td className="tituloCrudRecetas"></td>
                         <td className="tituloCrudRecetas">Acciones</td>
                     </tr>
@@ -152,7 +181,7 @@ const RecetasAdmin = () => {
                         <button className="close-modal" onClick={() => setShowVerMasModal(false)}>X</button>
                         <h2>Detalles de la Receta</h2>
                         <p><strong>Nombre:</strong> {selectedReceta?.Nombre}</p>
-                        <p><strong>Ingredientes:</strong> {selectedReceta?.ingredientes}</p>
+                        {/* <p><strong>Ingredientes:</strong> {selectedReceta?.ingredientes}</p> */}
                         <p><strong>Descripcion:</strong> {selectedReceta?.Descripcion}</p>
                     </div>
                 </div>
@@ -194,12 +223,31 @@ const RecetasAdmin = () => {
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-modal" onClick={handleCloseNuevoModal}>X</button>
                         <h2>Registrar Nueva Receta</h2>
-                        <form className="formularioEditarRecetasAdmin">
-                            <input className="inputRecetaEditarAdmin" placeholder="Nombre" type="text" /><br />
-                            <input className="inputRecetaEditarAdmin" placeholder="Ingredientes" type="text" /><br />
-                            <input className="inputRecetaEditarAdmin" placeholder="Descripcion" type="text" /><br />
-                            <input className="inputRecetaEditarAdmin" placeholder="Adjuntar foto" type="text" /><FontAwesomeIcon icon={faImages} className="iconoFotoRecetasAdmin"/>
-                            <button type="submit" className="botonEditarRecetasAdmin">Registrar Receta</button>
+                        <form className="formularioEditarRecetasAdmin" >
+                            <input 
+                                className="inputRecetaEditarAdmin"
+                                placeholder="Nombre" 
+                                type="text" 
+                                name="Nombre"
+                                value={nombre}
+                                onChange={(e) => setNombre(e.target.value)}
+                            /><br />
+                            {/* <input className="inputRecetaEditarAdmin" placeholder="Ingredientes" type="text" /><br /> */}
+                            <input 
+                                className="inputRecetaEditarAdmin" 
+                                placeholder="Descripcion" 
+                                type="text" 
+                                name="Descripcion"
+                                value={descripcion}
+                                onChange={(e) => setDescripcion(e.target.value)}
+                            /><br />
+                            {/* <input 
+                                className="inputRecetaEditarAdmin" 
+                                placeholder="Adjuntar foto" 
+                                type="file" 
+                            />
+                            <FontAwesomeIcon icon={faImages} className="iconoFotoRecetasAdmin"/> */}
+                            <button type="submit" onClick ={crearReceta} className="botonEditarRecetasAdmin">Registrar Receta</button>
                         </form>
                     </div>
                 </div>

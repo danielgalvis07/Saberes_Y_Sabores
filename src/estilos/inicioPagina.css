@@ -1,4 +1,5 @@
 
+
 .imagenSuperior {
       height: 100%;
       width: 100%;
@@ -20,15 +21,19 @@
     display: flex;
     justify-content: space-around;
     align-items: self-start;
+    margin-bottom: -18%;
 }
 .textoInicio{
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     position: relative;
     bottom: 46vh;
-    width: 49%;
+    width: 90%;
     text-align: left;
+}
+.quienesSomos{
+    color: #71277a;
 }
 .imagenPrimerTexto{
     display: flex;
@@ -46,18 +51,32 @@
     justify-content: space-around;
 }
 .parrafoVisionMision{
-    width: 42%;
+    width: 36%;
     text-align: left;
+    border-radius: 12px;
+    padding: 17px;
+    height: 20%;
+    box-shadow: 3px 5px 15px 5px #797979;
 }
 .tituloInicioPaginaMV{
     text-align: center;
+    color: #71277a;
 }
-.imagenVisionMision{
+.imagenVision{
+    width: 38.8%;
+    height: 38.8%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+}
+.imagenMision{
     width: 40%;
     height: 40%;
     display: flex;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 2%;
 }
 
 

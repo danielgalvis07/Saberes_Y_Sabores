@@ -45,7 +45,7 @@ body{
     bottom: 27px;
 }
 .botonBuscarProductosAdmin{
-    background-color: #5E5E5E;
+    background-color: #623768;
     position: relative;
     left: 28%;
     width: 3%;
@@ -120,6 +120,12 @@ body{
     border: none;
     font-size: 20px;
     cursor: pointer;
+}
+.imgVerMas{
+    width: 40%;
+    height: 40%;
+    object-fit: cover;
+    border-radius: 9px;
 }
 
 

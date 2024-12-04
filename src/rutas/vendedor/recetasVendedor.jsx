@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
 import NavVendedor from '../../componentes/navegacioVendedor'
 import MenuLateral from '../../componentes/sidebar'
-import '../../estilos/misSemillas.css'
+import '../../estilos/recetasVendedor.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImages } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import InputSearch from '../../componentes/buscador';
 
-
-// import GaleriaMisProductos from '../../componentes/galeria'
 
 
     
 const RecetasVendedor = () => {
     const [dataRecetas, setDataRecetas] = useState([]);
     const [nombre, setNombre] = useState('');
-    const [imagen, setImagen] = useState('')
+    const [descripcion, setDescripcion] = useState('')
     const [selectedProducto, setSelectedProducto] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [showEditarModal, setShowEditarModal] = useState(false);
@@ -31,7 +30,7 @@ const RecetasVendedor = () => {
 const handleEditarMisProductos = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch('http://localhost:5000/actualizar_producto', {
+        const response = await fetch('http://localhost:5000/actualizar_receta', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -76,11 +75,11 @@ const handleCloseNuevoModal = () => {
     setShowNuevoModal(false); // Cerrar el modal de nuevo producto
 };
 
-const crearProducto = async (e) => {
+const crearReceta = async (e) => {
     e.preventDefault();
-    const data = { nombre, imagen };
+    const data = { nombre, descripcion };
     try {
-        const response = await fetch('http://localhost:5000/registro_productos', {
+        const response = await fetch('http://localhost:5000/registro_recetas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,8 +90,8 @@ const crearProducto = async (e) => {
         const result = await response.json();
 
         if (response.status === 200) {
-            alert('producto Registrado correctamente');
-            navigate('/misProductos');
+            alert('receta Registrado correctamente');
+            navigate('/recetasVendedor');
         } else {
             console.error('Error:', result.message || 'Error al registrarse');
         }
@@ -107,8 +106,7 @@ const crearProducto = async (e) => {
             <NavVendedor />
             <MenuLateral />
             <h1>RECETAS VENDEDOR</h1>
-            <input type="text" className="buscarProductosAdmin"/>
-            <button  className="botonBuscarProductosAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            <InputSearch/>
             <button 
                 className="nuevaRecetaAdmin" 
                 onClick={handleNuevoProducto} // Abrir el modal de nuevo producto
@@ -119,12 +117,15 @@ const crearProducto = async (e) => {
             <div className="crudVendedorSemillas">
 
             {dataRecetas.map((item) => (
-                        <tr key={item.id} >
-                            <td>{item.id}</td>
-                            <td>{item.Nombre}</td>
-                            <td>{item.Descripcion}</td>
+                <div className="cardRecetasVendedor">
+
+                        <tr key={item.id} className="">
+                            <td>{item.id}</td><br />
+                            <td>{item.Nombre}</td><br />
+                            <td>{item.Descripcion}</td><br />
  
                         </tr>
+                </div>
                     ))}
 
 
@@ -162,22 +163,30 @@ const crearProducto = async (e) => {
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-modal" onClick={handleCloseNuevoModal}>X</button>
                         <h2>Registrar Nuevo producto</h2>
-                        <form className="formularioEditarRecetasAdmin" onSubmit={crearProducto}>
+                        <form className="formularioEditarRecetasAdmin" onSubmit={crearReceta}>
                             <input 
                                 type="text"
-                                placeholder="Ingresa el nombre del producto"
+                                placeholder="Ingresa el nombre de la receta"
                                 name="nombre"
                                 value={nombre}
                                 className="inputProductoEditarAdmin"
                                 onChange={(e) => setNombre(e.target.value)}
                                 /><br/>
                             <input 
+                                type="text"
+                                placeholder="Ingresa la descripcion de la receta"
+                                name="descripcion"
+                                value={descripcion}
+                                className="inputProductoEditarAdmin"
+                                onChange={(e) => setDescripcion(e.target.value)}
+                                /><br/>
+                            <input 
                                 type="file"
                                 className="inputRecetaEditarAdmin" 
                                 placeholder="Adjuntar foto" 
-                                value={imagen}
+                                // value={imagen}
                                 name="imagen"
-                                onChange={(e) => setImagen(e.target.value)}
+                                // onChange={(e) => setImagen(e.target.value)}
                             />
                             <FontAwesomeIcon icon={faImages} className="iconoFotoRecetasAdmin"/>
                             <button type="submit" className="botonEditarRecetasAdmin">Registrar producto</button>
@@ -186,8 +195,8 @@ const crearProducto = async (e) => {
                 </div>
             )}
 
-  </div>
         </div>
+    </div>
 
 )
 

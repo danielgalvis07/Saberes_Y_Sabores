@@ -5,6 +5,8 @@ import { faPencil, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import '../../estilos/usuariosAdmin.css';
 import MenuLateral from '../../componentes/sidebar';
 import NavAdmin from '../../componentes/navegacionAdmin';
+import InputSearch from '../../componentes/buscador';
+
 
 const ToggleSwitch = ({ isActive, onToggle }) => (
     <div className={`toggle-switch ${isActive ? 'active' : ''}`} onClick={onToggle}>
@@ -117,10 +119,7 @@ const UsuariosAdmin = () => {
             <NavAdmin />
             <MenuLateral />
             <h1>Usuarios</h1>
-            <input type="text" className="buscarUsuariosAdmin" />
-            <button className="botonBuscarUsuariosAdmin" >
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </button>
+            <InputSearch/>
             <button 
                 className="nuevaRecetaAdmin" 
                 onClick={handleNuevoReceta} // Abrir el modal de nueva receta

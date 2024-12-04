@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import NavVendedor from '../../componentes/navegacioVendedor'
 import MenuLateral from '../../componentes/sidebar'
 // import GaleriaMisProductos from '../../componentes/galeria'
+import InputSearch from '../../componentes/buscador';
+
 
 
     
@@ -18,6 +20,7 @@ const MisProductos = () => {
             <NavVendedor />
             <MenuLateral />
             <h1>MIS PRODUCTOS</h1>
+            <InputSearch />
             <div className="crudVendedorSemillas">
 
                 {dataProductos.map((item) => (
