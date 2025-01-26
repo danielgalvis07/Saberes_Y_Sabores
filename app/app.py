@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from database import Database
 from flask_cors import CORS
 
+from sql import Sql
+
 app = Flask(__name__)
 CORS(app)  # Habilita CORS para toda la aplicación
 
@@ -76,9 +78,7 @@ def validar_usuario():
     conexion.close()
 
     if resultado:
-     
         rol = resultado[5]  #se pone en la columna en la que esta en la base de datos
-        
         return jsonify({
             "message": "Usuario Iniciado",
             "rol": rol
@@ -145,21 +145,11 @@ def obtener_recetas():
 
 @app.route('/actualizar_receta', methods=['POST'])#----------------------ACTUALIZAR RECETA
 def actualizar_recetas():
-    print("actualizando")
     data = request.get_json()
     id_receta = data.get("id")
     Nombre = data.get("Nombre")
     Descripcion = data.get("Descripcion")
-    conexion = get_db_connection()
-    cursor = conexion.cursor()
-    sql = "UPDATE recetas SET Nombre=%s, Descripcion=%s WHERE IdReceta = %s"
-    cursor.execute(sql, (Nombre, Descripcion, id_receta))
-    conexion.commit()
-    cursor.execute("SELECT IdReceta, Nombre, Descripcion FROM recetas")
-    resultado = cursor.fetchall()
-    cursor.close()
-    conexion.close()
-
+    resultado = Sql.update_receta(id_receta, Nombre, Descripcion)
     recetas = [
         {
             "id": row[0],
@@ -172,21 +162,20 @@ def actualizar_recetas():
 
     return jsonify(recetas), 200
 
-   #registro de productos admin
+   
 
-@app.route('/registro_recetas', methods=['POST'])
+@app.route('/registro_recetas', methods=['POST'])#registro de productos admin
 def registro_receta(): 
-    print("accediendoa registro ruta")
     try:
         data = request.get_json()
-        Nombre = data['Nombre']
-        Descripcion = data['Descripcion']
-        print(Nombre)
-        # Descripcion = data.get("Descripcion")
+        nombre = data['nombre']
+        descripcion = data['descripcion']
+        imagen = data['imagen']
+    
         conexion = get_db_connection()
         cursor = conexion.cursor()
-        sql = "INSERT INTO recetas (Nombre, Descripcion) VALUES (%s, %s)"
-        valores = (Nombre, Descripcion)
+        sql = "INSERT INTO recetas (Nombre, Descripcion, Imagen) VALUES (%s, %s, %s)"
+        valores = (nombre, descripcion, imagen)
         cursor.execute(sql, valores)
         conexion.commit()
         cursor.close()
@@ -198,18 +187,11 @@ def registro_receta():
 
 
 
-# vendedor
+# ---------------------------------------------------------------------------------VENDEDOR
 
 @app.route('/semillas', methods=['GET'])#MOSTRAR PRODUCTOS
 def obtener_semilla():
-    conexion = get_db_connection()
-    cursor = conexion.cursor()
-    sql = "SELECT IdSemilla, NombreCientSemilla, imagen FROM semillas"
-    cursor.execute(sql)
-    resultado = cursor.fetchall()
-    cursor.close()
-    conexion.close()
-    
+    resultado = Sql.select_semillas()
     semillas = [
         {
             "id": row[0],
@@ -228,16 +210,8 @@ def actualizar_prosuctos():
     id_receta = data.get("id")
     nombre = data.get("nombre")
     imagen = data.get("imagen")
-    conexion = get_db_connection()
-    cursor = conexion.cursor()
-    sql = "UPDATE semillas SET NombreCientSemilla=%s, imagen=%s WHERE IdSemilla = %s"
-    cursor.execute(sql, (nombre, imagen, id_receta))
-    conexion.commit()
-    cursor.execute("SELECT IdSemilla, NombreCientSemilla, imagen FROM semillas")
-    resultado = cursor.fetchall()
-    cursor.close()
-    conexion.close()
 
+    resultado = Sql.update_semillas(nombre, imagen, id_receta)
     semillas = [
         {
             "id": row[0],
@@ -252,18 +226,10 @@ def actualizar_prosuctos():
 #registro de productos desde vendedor
 @app.route('/registro_productos', methods=['POST'])
 def registro_producto():
-    print("accediendo a registro ruta")
     try:
         nombre = request.json.get('nombre')
         imagen = request.json.get('imagen')
-        conexion = get_db_connection()
-        cursor = conexion.cursor()
-        sql = "INSERT INTO semillas (NombreCientSemilla, imagen) VALUES (%s, %s)"
-        valores = (nombre, imagen)
-        cursor.execute(sql, valores)
-        conexion.commit()
-        cursor.close()
-        conexion.close()
+        Sql.insert_semillas(nombre, imagen)
 
         return jsonify({"message": "producto registrado con éxito"}), 200
     except Exception as err:

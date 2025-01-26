@@ -14,6 +14,7 @@ const RecetasVendedor = () => {
     const [dataRecetas, setDataRecetas] = useState([]);
     const [nombre, setNombre] = useState('');
     const [descripcion, setDescripcion] = useState('')
+    const [imagen, setImagen] = useState('')
     const [selectedProducto, setSelectedProducto] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [showEditarModal, setShowEditarModal] = useState(false);
@@ -77,7 +78,7 @@ const handleCloseNuevoModal = () => {
 
 const crearReceta = async (e) => {
     e.preventDefault();
-    const data = { nombre, descripcion };
+    const data = { nombre, descripcion, imagen };
     try {
         const response = await fetch('http://localhost:5000/registro_recetas', {
             method: 'POST',
@@ -184,9 +185,9 @@ const crearReceta = async (e) => {
                                 type="file"
                                 className="inputRecetaEditarAdmin" 
                                 placeholder="Adjuntar foto" 
-                                // value={imagen}
+                                value={imagen}
                                 name="imagen"
-                                // onChange={(e) => setImagen(e.target.value)}
+                                onChange={(e) => setImagen(e.target.value)}
                             />
                             <FontAwesomeIcon icon={faImages} className="iconoFotoRecetasAdmin"/>
                             <button type="submit" className="botonEditarRecetasAdmin">Registrar producto</button>
