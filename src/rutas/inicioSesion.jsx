@@ -14,7 +14,7 @@ const InicioSesion = () => {
         const data = { email, password };
         
         try {
-            const response = await fetch('http://localhost:5000/validar_usuario', {
+            const response = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,6 +27,8 @@ const InicioSesion = () => {
             if (response.status === 200) {
                 // Aquí obtenemos el rol desde la respuesta
                 const { rol } = result;
+                const { token } = result;
+                
     
                 // Redirigimos dependiendo del rol
                 if (rol === 1) {

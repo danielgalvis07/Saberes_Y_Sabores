@@ -1,11 +1,20 @@
 from flask import Flask, request, jsonify
 from database import Database
 from flask_cors import CORS
-
+from flask_jwt_extended import (
+    JWTManager,
+    create_access_token,
+    jwt_required,
+    get_jwt_identity,
+)
 from sql import Sql
 
 app = Flask(__name__)
+app.secret_key = "MrPotato"
 CORS(app)  # Habilita CORS para toda la aplicación
+app.config["JWT_SK"] = "super-secret-key"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False
+jwt = JWTManager(app)
 
 db = Database()
 
@@ -62,8 +71,8 @@ def obtener_usuarios():
     
     return jsonify(usuarios), 200
 
-@app.route('/validar_usuario', methods=['POST'])# VALIDAR USUARIOS
-def validar_usuario():
+@app.route('/login', methods=['POST'])# VALIDAR USUARIOS
+def login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -78,15 +87,42 @@ def validar_usuario():
     conexion.close()
 
     if resultado:
-        rol = resultado[5]  #se pone en la columna en la que esta en la base de datos
+        access_token = create_access_token(identity=resultado[0])
+        print(access_token)
+        
+        id = resultado[0]
+        nombre = resultado[1]
+        apellido = resultado[2]
+        email = resultado[3]
+        psw = resultado[4]
+        rol = resultado[5]
+
+        user = {
+            "id": id,
+            'nombre':nombre,
+            'apellido': apellido,
+            'email': email,
+            'password': psw,
+            'rol': rol,
+            'token':access_token,
+        }
+        token=user["token"]
+
         return jsonify({
             "message": "Usuario Iniciado",
-            "rol": rol
+            "rol": rol,
+            "token": token
         }), 200
     else:
         return jsonify({"message": "Error de autenticación"}), 401
+    
+    
 
-
+# @app.route('/validate_token', methods=['POST'])# VALIDAR USUARIOS
+# def validate_token():
+    
+    
+    
 @app.route('/actualizar_usuario', methods=['POST'])#ACTUALIZAR USUARIOS
 def actualizar_usuarios():
     data = request.get_json()
@@ -190,7 +226,12 @@ def registro_receta():
 # ---------------------------------------------------------------------------------VENDEDOR
 
 @app.route('/semillas', methods=['GET'])#MOSTRAR PRODUCTOS
+# @jwt_required()
 def obtener_semilla():
+
+    # 
+    
+     
     resultado = Sql.select_semillas()
     semillas = [
         {

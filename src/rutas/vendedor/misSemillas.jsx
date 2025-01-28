@@ -12,7 +12,7 @@ import '../../estilos/misSemillas.css'
 // import GaleriaMisProductos from '../../componentes/galeria'
 
 
-    
+
 const MisSemillas = () => {
     const [dataProductos, setDataProductos] = useState([]);
     const [nombre, setNombre] = useState('');
