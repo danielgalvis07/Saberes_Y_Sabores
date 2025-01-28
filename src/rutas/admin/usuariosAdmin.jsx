@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import '../../estilos/usuariosAdmin.css';
-import MenuLateral from '../../componentes/sidebar';
+import MenuLateralAdmin from '../../componentes/sidebarAdmin'
 import NavAdmin from '../../componentes/navegacionAdmin';
 import InputSearch from '../../componentes/buscador';
 
@@ -117,7 +117,7 @@ const UsuariosAdmin = () => {
     return (
         <div className="UsuariosAdmin">
             <NavAdmin />
-            <MenuLateral />
+            <MenuLateralAdmin />
             <h1>Usuarios</h1>
             <InputSearch/>
             <button 

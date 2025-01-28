@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import '../estilos/inicioSesion.css';
-import logo from '../imagenes/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
 const InicioSesion = () => {
     const [email, setEmail] = useState("");
@@ -32,9 +33,9 @@ const InicioSesion = () => {
     
                 // Redirigimos dependiendo del rol
                 if (rol === 1) {
-                    navigate('/principioAdmin'); // Admin
+                    navigate('/usuariosAdmin'); // Admin
                 } else if (rol === 2) {
-                    navigate('/principioVendedor'); // vendedor
+                    navigate('/misSemillasVendedor'); // vendedor
                 } else if (rol === 3) {
                     navigate('/'); // usuario
                 } else {
@@ -52,16 +53,21 @@ const InicioSesion = () => {
     
 
     return (
-        <div className="contenedor">
+        <div className="contenedorLogin">
+            <div className="contenedorImagenLogin">
+                <img className="imagenLogin" src="https://media.istockphoto.com/id/1401722160/es/foto/plantaci%C3%B3n-soleada-con-cultivo-de-soja.jpg?s=612x612&w=0&k=20&c=5ZTCnfPWntup-6i6G5cAhOniow_TWNFCacAaFipnI2o=" alt="" />
+                <h1 className="tituloImagenLogin">Bienvenidos a saberes y sabores</h1>
+            </div>
             <div className="contenedorFormulario">
                 <form className="formularioInicio" onSubmit={handleSubmit}>
-                    <h2 className="tituloInicio">INICIO DE SESION</h2>
+                    <h1 className="tituloInicio">Inicio de sesion</h1>
                     <br /><br />
                     <div className="inputs">
+                    <FontAwesomeIcon icon={faEnvelope} className="iconosLogin"/>
                         <input
                             type="email"
                             placeholder="Correo electrónico"
-                            className="inputRegistro"
+                            className="inputLogin"
                             name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -70,29 +76,25 @@ const InicioSesion = () => {
                         <input
                             type="password"
                             placeholder="Contraseña"
-                            className="inputRegistro"
+                            className="inputLogin"
                             name="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <br />
-                    </div>
                     {errorMessage && <p className="error">{errorMessage}</p>}
-                    <div className="contenedorBonotesInicioSesion">
                         <Link to="/" className="botonVolverinicio">
                             <button type="button" className="botones botonVolverInicio">Volver</button>
                         </Link>
                         <button type="submit" className="botones botoneInicio">Iniciar Sesión</button>
-                        <br />
+
+                    <Link to="/registro" className="cuenta">¿No tienes cuenta? Regístrate</Link><br />
+                    <Link to="/recuperacioClave" className="cuenta cuentaRecuperacion">¿Olvidaste tu contraseña?</Link>
+
                     </div>
                 </form>
-                <div className="imagen">
-                    <img src={logo} alt="Logo de mi aplicación" />
-                    <br />
-                    <Link to="/registro" className="cuenta">¿No tienes cuenta? Regístrate</Link>
-                    <Link to="/recuperacioClave" className="cuenta cuentaRecuperacion">¿Olvidaste tu contraseña?</Link>
-                </div>
             </div>
+
         </div>
     );
 }
