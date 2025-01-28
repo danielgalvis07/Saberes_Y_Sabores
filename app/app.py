@@ -182,10 +182,12 @@ def obtener_recetas():
 @app.route('/actualizar_receta', methods=['POST'])#----------------------ACTUALIZAR RECETA
 def actualizar_recetas():
     data = request.get_json()
+    print(data)
     id_receta = data.get("id")
     Nombre = data.get("Nombre")
     Descripcion = data.get("Descripcion")
-    resultado = Sql.update_receta(id_receta, Nombre, Descripcion)
+    resultado = Sql.update_receta( Nombre, Descripcion,id_receta)
+    
     recetas = [
         {
             "id": row[0],
@@ -246,7 +248,7 @@ def obtener_semilla():
 
 #actualizar productos desde vendedor
 @app.route('/actualizar_producto', methods=['POST'])
-def actualizar_prosuctos():
+def actualizar_productos():
     data = request.get_json()
     id_receta = data.get("id")
     nombre = data.get("nombre")
@@ -261,6 +263,7 @@ def actualizar_prosuctos():
         }
         for row in resultado
     ]
+
 
     return jsonify(semillas), 200
 

@@ -53,4 +53,5 @@ class Sql:
         cursor.execute("SELECT IdReceta, Nombre, Descripcion FROM recetas")
         resultado = cursor.fetchall()
         cursor.close()
+        print("el resultado es",resultado)
         return resultado
