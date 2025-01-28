@@ -14,12 +14,10 @@ const NavAdmin = () => {
             <header>
                 <nav className="headerInicioAdmin">
                     <ul className="ulNavegacioAdmin">
-                        <NavLink to="/principioAdmin">
+                        <NavLink >
                             <img src={logo} alt="Logo" className="imagenHeaderAdmin" />
                         </NavLink>
-                        <NavLink className='linkAdmin' to='/recetasAdmin'>Recetas</NavLink>
-                        <NavLink className='linkAdmin' to='/productosAdmin'>Productos</NavLink>
-                        <NavLink className='linkAdmin' to="/usuariosAdmin">Usuarios</NavLink>
+
                     </ul>
                         <div className="salirAdmin">
                             <NavLink className='linkAdmin' to="/salirAdmin"><FontAwesomeIcon icon={faUser} className="iconosAdmin"/></NavLink>

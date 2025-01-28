@@ -26,13 +26,10 @@ const NavVendedor = () => {
             <header>
                 <nav className="headerInicioVendedor">
                     <ul className="ulNavegacioVendedor">
-                        <NavLink to="/principioVendedor">
+                        <NavLink >
                             <img src={logo} alt="Logo" className="imagenHeaderVendedor" />
                         </NavLink>
-                        <NavLink className='linkVendedor' to='/misSemillasVendedor'>Mis productos</NavLink>
-                        {/* <NavLink className='linkVendedor' to='/ordenesVendedor'>Ordenes</NavLink> */}
-                        <NavLink className='linkVendedor' to="/recetasVendedor">Recetas</NavLink>
-                        <NavLink className='linkVendedor' to="/tiendaVendedor">Tienda</NavLink>
+
                     </ul>
                     <div className="salirVendedor">
                         <button className="botonIconoVendedor"onClick={handleNuevoReceta} >
@@ -44,20 +41,6 @@ const NavVendedor = () => {
                 </nav>
             </header>
 
- {/* Modal para "Mi perfil" */}
- {showNuevoModal && (
-                <div className="modal-overlay" onClick={miPerfil}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <button className="close-modal" onClick={miPerfil}>X</button>
-                        <h2>Mi perfil</h2>
-                        <img src="https://i.pinimg.com/474x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg" alt="" className="fotoMiPerfil"/>
-                        
-                        <p>Nombre: Juanito</p>
-                        <p>Correo: juanito@gmail.com</p>
-
-                    </div>
-                </div>
-            )}
 
         </div>
     )

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faImages } from '@fortawesome/free-solid-svg-icons';
 import '../../estilos/recetasAdmin.css';
-import MenuLateral from '../../componentes/sidebar';
+import MenuLateralAdmin from '../../componentes/sidebarAdmin'
 import NavAdmin from '../../componentes/navegacionAdmin';
 import InputSearch from '../../componentes/buscador';
 
@@ -129,7 +129,7 @@ const RecetasAdmin = () => {
     return (
         <div className="recetasAdmin">
             <NavAdmin />
-            <MenuLateral />
+            <MenuLateralAdmin />
             <h1>Recetas</h1>
             <InputSearch/>
             <button 

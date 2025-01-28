@@ -7,8 +7,22 @@ import { faImages } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import InputSearch from '../../componentes/buscador';
 
-
-
+const Modal = ({ isOpen, onClose, title, children }) => {
+    if (!isOpen) return null;
+  
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <button className="close-modal" onClick={onClose}>
+            X
+          </button>
+          <h2>{title}</h2>
+          {children}
+        </div>
+      </div>
+    );
+  };
+  
     
 const RecetasVendedor = () => {
     const [dataRecetas, setDataRecetas] = useState([]);
@@ -130,33 +144,33 @@ const crearReceta = async (e) => {
 
 
 
-              {/* Modal para "Editar" */}
-              {showEditarModal && (
-                <div className="modalEditarProductosAdmin" onClick={() => setShowEditarModal(false)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <button className="close-modal" onClick={() => setShowEditarModal(false)}>X</button>
-                        <h2>Editar Producto</h2>
-                        <form onSubmit={handleEditarMisProductos} className="formularioEditarProductosAdmin">
-                            <input 
-                                className="inputProductoEditarAdmin"
-                                type="text"
-                                name="nombre"
-                                value={selectedProducto?.nombre || ''}
-                                onChange={(e) => setSelectedProducto({ ...selectedProducto, nombre: e.target.value })}
-                            /><br />
-                            <input 
-                                className="inputProductoEditarAdmin" 
-                                type="file" 
-                                name="imagen"
-                                onChange={(e) => setSelectedProducto({ ...selectedProducto, imagen: e.target.value })}
-                                />
-                                <FontAwesomeIcon icon={faImages} className="iconoFotoProductosAdmin"/>
-                                
-                            <button type="submit" className="botonEditarProductosAdmin">Guardar Cambios</button>
-                        </form>
-                    </div>
-                </div>
-                )}
+{/* Modal para "Editar" */}
+<Modal 
+isOpen={showEditarModal}
+onClose={() => setShowEditarModal(false)}
+title="Editar Recetas"
+>
+<form onSubmit={handleEditarMisProductos} className="formularioEditarProductosAdmin">
+    <input 
+        className="inputProductoEditarAdmin"
+        type="text"
+        name="nombre"
+        value={selectedProducto?.nombre || ''}
+        onChange={(e) => setSelectedProducto({ ...selectedProducto, nombre: e.target.value })}
+    />
+    <br />
+    <input 
+        className="inputProductoEditarAdmin" 
+        type="file" 
+        name="imagen"
+        onChange={(e) => setSelectedProducto({ ...selectedProducto, imagen: e.target.value })}
+        />
+        <FontAwesomeIcon icon={faImages} className="iconoFotoProductosAdmin"/>
+        
+    <button type="submit" className="botonEditarProductosAdmin">Guardar Cambios</button>
+</form>
+</Modal>
+
                    {/* Modal para "Nuevo producto" */}
             {showNuevoModal && (
                 <div className="modal-overlay" onClick={handleCloseNuevoModal}>
