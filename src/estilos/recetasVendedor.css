@@ -1,5 +1,10 @@
 .cardRecetasVendedor{
-        border: 1px solid;
         display: grid;
         justify-content: center;
+        -webkit-box-shadow: 8px 7px 24px -12px rgba(66, 68, 90, 1);
+        -moz-box-shadow: 8px 7px 24px -12px rgba(66, 68, 90, 1);
+        box-shadow: 8px 7px 24px -12px rgba(66, 68, 90, 1);
+        width: 86%;
+        background: #d9d9d9;
+        border-radius: 10px;
 }

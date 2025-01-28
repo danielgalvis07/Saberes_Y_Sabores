@@ -1,4 +1,4 @@
-.galeria {
+/* .galeria {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   margin: 9px;
@@ -39,12 +39,13 @@
   .verMas :hover{
     background-color: #af9479;
     border: solid 2px #1a3027;
-    color: #ffe6cc ;
-  }
+    color: #ffe6cc ;  }
+    */
+ 
 
   /* modal */
 
-  .modal {
+  /* .modal {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,7 +79,7 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
-  }
+  } */
 
   
   

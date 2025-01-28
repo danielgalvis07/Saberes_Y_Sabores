@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faImages } from '@fortawesome/free-solid-svg-icons';
 import '../../estilos/ProductosAdmin.css';
-import MenuLateral from '../../componentes/sidebar';
+import MenuLateralAdmin from '../../componentes/sidebarAdmin'
 import NavAdmin from '../../componentes/navegacionAdmin';
 import InputSearch from '../../componentes/buscador';
 
@@ -126,7 +126,7 @@ const toggleActivo = (id) => {
     return (
         <div className="ProductosAdmin">
             <NavAdmin />
-            <MenuLateral />
+            <MenuLateralAdmin />
             <h1>Productos</h1>
             {/* <input type="text" className="buscarProductosAdmin"/>
             <button  className="botonBuscarProductosAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button> */}

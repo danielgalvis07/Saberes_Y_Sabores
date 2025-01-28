@@ -11,12 +11,12 @@ const Nav = () => {
             <header>
                 <nav className="headerInicio">
                     <ul className="ulNavegacion">
-                        <NavLink to="/">
+                        <NavLink >
                             <img src={logo} alt="Logo" className="imagenHeader" />
                         </NavLink>
-                        <NavLink className='link' to='/inicioSesion'>Inicio</NavLink>
-                        <NavLink className='link' to="/nosotros">Nosotros</NavLink>
-                        <NavLink className='link' to="/tiendaPrincipio">Tienda</NavLink>
+                        <NavLink className='link ' to='/inicioSesion'>Inicio</NavLink>
+                        {/* <NavLink className='link' to="/nosotros">Nosotros</NavLink>
+                        <NavLink className='link' to="/tiendaPrincipio">Tienda</NavLink> */}
                         <NavLink className='linkRegistro' to='/registro'>Registro</NavLink>
                     </ul>
                 </nav>
