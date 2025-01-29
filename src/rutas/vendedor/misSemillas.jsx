@@ -133,12 +133,12 @@ const crearProducto = async (e) => {
                         </td>
                     <button className="verMasMisProductos" onClick={() => handleEditar(item)}>Editar</button>
                     </div>
-                ))}
+              ))}
 
 
 
               {/* Modal para "Editar" */}
-              {showEditarModal && (
+            {showEditarModal && (
                 <div className="modalEditarProductosAdmin" onClick={() => setShowEditarModal(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-modal" onClick={() => setShowEditarModal(false)}>X</button>

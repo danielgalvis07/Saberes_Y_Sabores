@@ -55,3 +55,31 @@ class Sql:
         cursor.close()
         print("el resultado es",resultado)
         return resultado
+    #-----------------Eliminar------
+    
+    def eliminar_senilla(id_semilla):
+        conexion = db.connect()
+        cursor = conexion.cursor()
+        sql = "DELETE FROM semillas WHERE idSemilla = %s" 
+        cursor.execute(sql,(id_semilla))
+        conexion.commit
+        cursor.close()
+        conexion.close()
+    
+    def eliminar_recetas(id_receta):
+        conexion = db.connect()
+        cursor = conexion.cursor()
+        sql = "DELETE FROM recetas WHERE idRecetas = %s" 
+        cursor.execute(sql,(id_receta))
+        conexion.commit
+        cursor.close()
+        conexion.close()
+        
+    def eliminar_usuarios(id_usuarios):
+        conexion = db.connect()
+        cursor = conexion.cursor()
+        sql = "DELETE FROM usuarios WHERE idUsuario = %s" 
+        cursor.execute(sql,(id_usuarios))
+        conexion.commit
+        cursor.close()
+        conexion.close()

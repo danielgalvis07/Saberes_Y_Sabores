@@ -200,7 +200,7 @@ def actualizar_recetas():
 
     return jsonify(recetas), 200
 
-   
+
 
 @app.route('/registro_recetas', methods=['POST'])#registro de productos admin
 def registro_receta(): 
@@ -222,6 +222,8 @@ def registro_receta():
         return jsonify({"message": "receta registrado con éxito"}), 200
     except Exception as err:
         return jsonify({"message":f"No funciono el registro {err}"}), 400
+    
+
 
 
 
@@ -233,7 +235,6 @@ def obtener_semilla():
 
     # 
     
-     
     resultado = Sql.select_semillas()
     semillas = [
         {
