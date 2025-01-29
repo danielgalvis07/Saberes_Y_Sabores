@@ -31,14 +31,20 @@
     border-radius: 8px;
     padding: 12px;
     padding-left: 42px;
+    background-color: #fff;
 }
+
 .botones{
     margin-top: 42px;
     margin-bottom: 12px;
     width: 45%;
     height: 55px;
+    background-color: #fff;
 }
+.botones:hover{
+    background-color: #acacac;
 
+}
 .botonVolverInicio{
     margin-right: 17px;
     margin-left: 17px;
@@ -61,4 +67,8 @@
 }
 .tituloInicio{
     
+}
+
+.cuenta{
+    color: #3a3f43;
 }

@@ -40,6 +40,9 @@ const Registro = () => {
 
     return (
         <div className="contenedorRegistro">
+            <div className="imagenRegistro">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzM-M4bWwmf1iHzawQgrhGMNb-_ojiutOewg&s" alt="" />
+            </div>
             <form className="formularioRegistro" onSubmit={handleSubmit}>
                 <h2 className="tituloRegistro">REGISTRO</h2>
                 <div className="inputsRegistro">
@@ -59,6 +62,7 @@ const Registro = () => {
                         value={apellido}
                         onChange={(e) => setApellido(e.target.value)}
                     />
+
                     <input
                         type="email"
                         placeholder="Correo electrónico"

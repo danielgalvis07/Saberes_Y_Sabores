@@ -1,9 +1,31 @@
-
-
+.imagenInicio{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 22%;
+}
 .imagenSuperior {
-      height: 100%;
-      width: 100%;
-      z-index: -1;
+    height: 52vh;
+    width: 100%;
+    margin-top: 5%;
+    border-radius: 15px;
+    position: relative;
+    right: -13%;
+  }
+  .cuadritoTexto{
+    width: 30%;
+    position: relative;
+    right: 10%;
+    height: 52vh;
+    background-color: #ffffff;
+    border-radius: 0 12px 12px 0;
+    opacity: 0.5;
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 60px;
   }
 
 .tituloPrincipalInicio{

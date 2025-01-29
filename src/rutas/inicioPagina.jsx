@@ -11,12 +11,13 @@ const Principio = () => {
       <Nav/>
       <div className="imagenInicio">
         <img
-          src="https://estaticos.elcolombiano.com/documents/10157/0/652x366/14c0/580d365/none/11101/GPFF/image_content_33913827_20190725183631.jpg"
+          src="https://www.syngenta.com.co/sites/g/files/kgtney501/files/styles/main_media_large/public/media/image/2017/12/15/14dic_mitos_700x400.jpg?itok=wFzz4N83"
           alt="Mi imagen" className="imagenSuperior"
         />
+          <div className="cuadritoTexto">
+              <h3>Saberes y sabores</h3>
+          </div>
         </div>
-        <h1 className="tituloPrincipalInicio">SABERES</h1>
-        <h1 className="tituloPrincipalInicio">Y SABORES</h1>
         <div className="primerTexto">
             <div className="textoInicio">
               <p className="parrafoInicio">
@@ -26,9 +27,7 @@ const Principio = () => {
                 Este portal permitirá gestionar las acciones desarrolladas por el Proyecto Integrador de Centro, a partir de la divulgación e información en sitio web, sobre especies vegetales a rescatar, por parte de instructores, aprendices, custodios de semillas, representantes de pilotos y productos orgánicos de semillas criollas y nativas del Oriente Antioqueño Colombiano, buscando la apropiación y potenciación de saberes sobre su producción, transformación y comercialización de bienes y servicios creativos a partir de semillas campesinas olvidadas, básicas en la seguridad alimentaria y el bienestar y buen vivir de la población rural.
                 </p>
           </div>
-          {/* <div className="imagenPrimerTexto">
-            <img src={logo} alt="" className="primerTextoImagen"/>
-          </div> */}
+
         </div>
         <div className="misionVision">
           <p className="parrafoVisionMision">
