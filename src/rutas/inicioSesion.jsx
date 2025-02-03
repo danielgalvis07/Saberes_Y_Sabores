@@ -84,9 +84,9 @@ const InicioSesion = () => {
                         <br />
                     {errorMessage && <p className="error">{errorMessage}</p>}
                         <Link to="/" className="botonVolverinicio">
-                            <button type="button" className="botones botonVolverInicio">Volver</button>
+                            <button type="button" className="botonesSesion botonVolverInicioR">Volver</button>
                         </Link>
-                        <button type="submit" className="botones botoneInicio">Iniciar Sesión</button>
+                        <button type="submit" className="botonesSesion botoneInicio">Iniciar Sesión</button>
 
                     <Link to="/registro" className="cuenta">¿No tienes cuenta? Regístrate</Link><br />
                     <Link to="/recuperacioClave" className="cuenta cuentaRecuperacion">¿Olvidaste tu contraseña?</Link>
