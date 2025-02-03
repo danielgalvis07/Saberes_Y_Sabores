@@ -8,15 +8,6 @@ import MenuLateralAdmin from '../../componentes/sidebarAdmin'
 import NavAdmin from '../../componentes/navegacionAdmin';
 import InputSearch from '../../componentes/buscador';
 
-
-
-
-const ToggleSwitch = ({ isActive, onToggle }) => (
-    <div className={`toggle-switch ${isActive ? 'active' : ''}`} onClick={onToggle}>
-        <div className="toggle-knob"></div>
-    </div>
-);
-
 const RecetasAdmin = () => {
 
     
@@ -88,16 +79,6 @@ const RecetasAdmin = () => {
             console.error('Error de red. Intenta nuevamente más tarde.', error);
         }
     };
-    
-
-    const toggleActivo = (id) => {
-        setDataRecetas((prevData) =>
-            prevData.map((item) =>
-                item.id === id ? { ...item, activo: !item.activo } : item
-            )
-        );
-    };
-
     const handleVerMas = (receta) => {
         setSelectedReceta(receta);
         setShowVerMasModal(true);
@@ -164,10 +145,6 @@ const RecetasAdmin = () => {
                                 <NavLink className='actulizarRecetas'>
                                     <FontAwesomeIcon icon={faPencil} onClick={() => handleEditar(item)} style={{ color: "#000000" }} />
                                 </NavLink>
-                                <ToggleSwitch
-                                    isActive={item.activo}
-                                    onToggle={() => toggleActivo(item.id)}
-                                />
                             </td>
                         </tr>
                     ))}

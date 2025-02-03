@@ -1,6 +1,11 @@
+input {
+  color: #000;
+}
+select{ color: #000;}
 
 button{
-  background-color: ;
+  background-color: #3a3f43;
+  color: #3a3f43;
 }
 
 :root {
@@ -44,7 +49,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #3a3f43;
   cursor: pointer;
   transition: border-color 0.25s;
 }

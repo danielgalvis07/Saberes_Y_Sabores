@@ -7,13 +7,6 @@ import MenuLateralAdmin from '../../componentes/sidebarAdmin'
 import NavAdmin from '../../componentes/navegacionAdmin';
 import InputSearch from '../../componentes/buscador';
 
-
-const ToggleSwitch = ({ isActive, onToggle }) => (
-    <div className={`toggle-switch ${isActive ? 'active' : ''}`} onClick={onToggle}>
-        <div className="toggle-knob"></div>
-    </div>
-);
-
 const UsuariosAdmin = () => {
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
@@ -97,14 +90,6 @@ const UsuariosAdmin = () => {
         setShowEditarModal(true);
     };
 
-    const toggleActivo = (id) => {
-        setDataUsuarios((prevData) =>
-            prevData.map((item) =>
-                item.id === id ? { ...item, activo: !item.activo } : item
-            )
-        );
-    };
-
     const handleNuevoReceta = () => {
         setShowNuevoModal(true); // Mostrar el modal para crear nueva receta
     };
@@ -151,10 +136,6 @@ const UsuariosAdmin = () => {
                                 <NavLink className='actulizarUsuarios' onClick={() => handleEditar(item)}>
                                     <FontAwesomeIcon icon={faPencil} style={{ color: "#000000" }} />
                                 </NavLink>
-                                <ToggleSwitch
-                                    isActive={item.activo}
-                                    onToggle={() => toggleActivo(item.id)}
-                                />
                             </td>
                         </tr>
                     ))}

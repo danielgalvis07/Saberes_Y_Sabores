@@ -9,13 +9,6 @@ import NavAdmin from '../../componentes/navegacionAdmin';
 import InputSearch from '../../componentes/buscador';
 
 
-
-const ToggleSwitch = ({ isActive, onToggle }) => (
-    <div className={`toggle-switch ${isActive ? 'active' : ''}`} onClick={onToggle}>
-        <div className="toggle-knob"></div>
-    </div>
-); 
-
 const ProductosAdmin = () => {
     const [dataProductos, setDataProductos] = useState([]);
     const [selectedProducto, setSelectedProducto] = useState(null);
@@ -30,7 +23,7 @@ const ProductosAdmin = () => {
             .then(response => response.json())
             .then(data => setDataProductos(data))
             .catch(error => console.error('Error al obtener productos:', error));
-    }, []);
+},[]);
 
 
 const handleVerMas = (producto) => {
@@ -89,17 +82,6 @@ const crearProducto = async (e) => {
         console.error('Error de red. Intenta nuevamente más tarde.', error);
     }
 };
-
-
-const toggleActivo = (id) => {
-    setDataProductos((prevData) =>
-        prevData.map((item) =>
-            item.id === id ? { ...item, activo: !item.activo } : item
-        )
-    );
-};
-        
-
     const handleEditar = (Producto) => {
         setSelectedProducto(Producto);
         setEditMode(true);
@@ -148,7 +130,7 @@ const toggleActivo = (id) => {
                 </thead>
                 <tbody>
                     {dataProductos.map((item) => (
-                        <tr key={item.id} style={{ opacity: item.activo ? 1 : 0.5}}>
+                        <tr key={item.id} >
                             <td>{item.id}</td>
                             <td>{item.nombre}</td>
                             <td>
@@ -162,10 +144,6 @@ const toggleActivo = (id) => {
                                 <NavLink className='actulizarProductos'>
                                     <FontAwesomeIcon icon={faPencil} onClick={() => handleEditar(item)} style={{ color: "#000000" }} />
                                 </NavLink>
-                                <ToggleSwitch
-                                    isActive={item.activo}
-                                    onToggle={() => toggleActivo(item.id)}
-                                />
                             </td>
                         </tr>
                     ))}
