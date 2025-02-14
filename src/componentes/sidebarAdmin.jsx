@@ -1,16 +1,27 @@
 import React from "react";
+import { useState } from "react";
 import '../estilos/sidebar.css'
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStore } from "@fortawesome/free-solid-svg-icons";
-import { faSeedling } from "@fortawesome/free-solid-svg-icons"; 
-import { faBook } from "@fortawesome/free-solid-svg-icons";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faStore, faBars, faSeedling, faBook, faUsers } from "@fortawesome/free-solid-svg-icons";
+
 
 
 const MenuLateralAdmin = () => {
+        const [sidebarOpen, setSidebarOpen] = useState(false);
+    
+        const toggleSidebar = () => {
+            setSidebarOpen(!sidebarOpen);
+        };
+
+
+        
     return (
-        <div className="menuLateral">
+        <>
+        <button className="menuToggle" onClick={toggleSidebar}>
+                <FontAwesomeIcon icon={faBars} />
+            </button>
+        <div className={`menuLateral ${sidebarOpen ? "open" : "closed"}`}>
             <ul className="ulMenuLateral">
            <li> <NavLink className='linkVendedorSidebar' to='/productosAdmin'><FontAwesomeIcon  className="iconosSidebar" icon={faSeedling} style={{color: "#71277a",}} />Semillas</NavLink></li>
             <li><NavLink className='linkVendedorSidebar' to="/recetasAdmin"><FontAwesomeIcon  className="iconosSidebar" icon={faBook} style={{color: "#71277a",}} />Recetas</NavLink></li>
@@ -20,6 +31,7 @@ const MenuLateralAdmin = () => {
             </ul>
 
         </div>
+        </>
     );
 }
 

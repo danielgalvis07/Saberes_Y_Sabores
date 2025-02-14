@@ -1,36 +1,51 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import { faImages } from '@fortawesome/free-solid-svg-icons';
-import '../../estilos/recetasAdmin.css';
+import React, { useState, useEffect } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faImages } from '@fortawesome/free-solid-svg-icons'
+import '../../estilos/recetasAdmin.css'
 import MenuLateralAdmin from '../../componentes/sidebarAdmin'
-import NavAdmin from '../../componentes/navegacionAdmin';
-import InputSearch from '../../componentes/buscador';
+import NavAdmin from '../../componentes/navegacionAdmin'
+import InputSearch from '../../componentes/buscador'
 
 const RecetasAdmin = () => {
 
-    
-    const [dataRecetas, setDataRecetas] = useState([]);
-    const [selectedReceta, setSelectedReceta] = useState(null);
+    const [filteredRecetas, setFilteredRecetas] = useState([])
+    const [searchTerm, setSearchTerm] = useState("")
+
+    const [dataRecetas, setDataRecetas] = useState([])
+    const [selectedReceta, setSelectedReceta] = useState(null)
     const [nombre, setNombre] = useState('')
     const [descripcion, setDescripcion] = useState('')
-    const [editMode, setEditMode] = useState(false);
-    const [showVerMasModal, setShowVerMasModal] = useState(false);
-    const [showEditarModal, setShowEditarModal] = useState(false);
-    const [showNuevoModal, setShowNuevoModal] = useState(false); // Nuevo estado para el modal de nueva receta
-    const navigate = useNavigate();
+    const [editMode, setEditMode] = useState(false)
+    const [showVerMasModal, setShowVerMasModal] = useState(false)
+    const [showEditarModal, setShowEditarModal] = useState(false)
+    const [showNuevoModal, setShowNuevoModal] = useState(false) 
+    const navigate = useNavigate()
 
     useEffect(() => {
         // Llamada a la API para obtener usuarios
         fetch('http://localhost:5000/recetas')
             .then(response => response.json())
-            .then(data => setDataRecetas(data))
-            .catch(error => console.error('Error al obtener recetas:', error));
-    },[]);
+            .then(data => {
+                setDataRecetas(data)
+                setFilteredRecetas(data)
+            }
+        
+        )
+            .catch(error => console.error('Error al obtener recetas:', error))
+    },[])
+
+
+    const handleSearch = (e) => {
+        const value = e.target.value.toLowerCase();
+        setSearchTerm(value);
+        const filtered = dataRecetas.filter(recetas => recetas.nombre.toLowerCase().includes(value));
+        setFilteredREcetas(filtered);
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
             const response = await fetch('http://localhost:5000/actualizar_receta', {
                 method: 'POST',
@@ -40,79 +55,87 @@ const RecetasAdmin = () => {
                     Nombre: selectedReceta.Nombre,
                     Descripcion: selectedReceta.Descripcion
                 })
-            });
+            })
 
             if (response.ok) {
-                const updatedRecetas = await response.json();
-                setDataRecetas(updatedRecetas); // Actualiza la lista de recetas con los datos del servidor
-                setShowEditarModal(false); // Cierra el modal de edición
-                alert('receta actualizada correctamente');
+                const updatedRecetas = await response.json()
+                setDataRecetas(updatedRecetas) // Actualiza la lista de recetas con los datos del servidor
+                setShowEditarModal(false) // Cierra el modal de edición
+                alert('receta actualizada correctamente')
             } else {
-                console.error("Error al actualizar la receta");
+                console.error("Error al actualizar la receta")
             }
         } catch (error) {
-            console.error("Error al hacer la petición:", error);
+            console.error("Error al hacer la petición:", error)
         }
-    };
+    }
 
     const crearReceta = async (e) => {
-        e.preventDefault();
-        const data = { Nombre: nombre, Descripcion: descripcion };
+        e.preventDefault()
+        const data = { Nombre: nombre, Descripcion: descripcion }
         try {
             const response = await fetch('http://localhost:5000/registro_recetas', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
-            });
+            })
     
             if (response.ok) {
-                const newReceta = await response.json();
-                setDataRecetas([...dataRecetas, newReceta]);
-                setShowNuevoModal(false);
-                setNombre('');
-                setDescripcion('');
-                alert('Receta registrada correctamente');
+                const newReceta = await response.json()
+                setDataRecetas([...dataRecetas, newReceta])
+                setShowNuevoModal(false)
+                setNombre('')
+                setDescripcion('')
+                alert('Receta registrada correctamente')
             } else {
-                console.error('Error:', result.message || 'Error al registrarse');
+                console.error('Error:', result.message || 'Error al registrarse')
             }
         } catch (error) {
-            console.error('Error de red. Intenta nuevamente más tarde.', error);
+            console.error('Error de red. Intenta nuevamente más tarde.', error)
         }
-    };
+    }
     const handleVerMas = (receta) => {
-        setSelectedReceta(receta);
-        setShowVerMasModal(true);
-    };
+        setSelectedReceta(receta)
+        setShowVerMasModal(true)
+    }
 
     const handleEditar = (receta) => {
-        setSelectedReceta(receta);
-        setEditMode(true);
-        setShowEditarModal(true);
-    };
+        setSelectedReceta(receta)
+        setEditMode(true)
+        setShowEditarModal(true)
+    }
 
     const handleUpdateReceta = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const updatedRecetas = dataRecetas.map((receta) =>
             receta.id === selectedReceta.id ? selectedReceta : receta
-        );
-        setDataRecetas(updatedRecetas);
-        setShowEditarModal(false);
-    };
+        )
+        setDataRecetas(updatedRecetas)
+        setShowEditarModal(false)
+    }
 
     const handleNuevoReceta = () => {
-        setShowNuevoModal(true); // Mostrar el modal para crear nueva receta
-    };
+        setShowNuevoModal(true) // Mostrar el modal para crear nueva receta
+    }
 
     const handleCloseNuevoModal = () => {
-        setShowNuevoModal(false); // Cerrar el modal de nueva receta
-    };
+        setShowNuevoModal(false) // Cerrar el modal de nueva receta
+    }
 
     return (
         <div className="recetasAdmin">
             <NavAdmin />
             <MenuLateralAdmin />
             <h1>Recetas</h1>
-            <InputSearch/>
+            <div className="search-container">
+                <input 
+                    type="text" 
+                    placeholder="Buscar producto..." 
+                    value={searchTerm} 
+                    onChange={handleSearch} 
+                    className="input-search"
+                />
+            </div>
             <button 
                 className="nuevaRecetaAdmin" 
                 onClick={handleNuevoReceta} // Abrir el modal de nueva receta
@@ -131,7 +154,7 @@ const RecetasAdmin = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {dataRecetas.map((item) => (
+                   {filteredRecetas.map((item) => (
                         <tr key={item.id} style={{ opacity: item.activo ? 1 : 0.5 }}>
                             <td>{item.id}</td>
                             <td>{item.Nombre}</td>
@@ -144,6 +167,9 @@ const RecetasAdmin = () => {
                             <td className="accionesRecetasAdmin">
                                 <NavLink className='actulizarRecetas'>
                                     <FontAwesomeIcon icon={faPencil} onClick={() => handleEditar(item)} style={{ color: "#000000" }} />
+                                </NavLink>
+                                <NavLink className='eliminarRecetas'>
+                                    <FontAwesomeIcon icon={faTrash} style={{color: "#000000",}} />
                                 </NavLink>
                             </td>
                         </tr>
@@ -231,7 +257,7 @@ const RecetasAdmin = () => {
             )}
         </div>
 
-    );
+    )
 }
 
 export default RecetasAdmin

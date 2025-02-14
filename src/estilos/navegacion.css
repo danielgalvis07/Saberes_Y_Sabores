@@ -52,3 +52,17 @@
 .imagenHeader{
     width: 21%;
 }
+@media  (max-width: 1000px){
+    .linkRegistro {
+        left: -5%;
+        width: 38%;
+        font-size: 13px;
+    }
+    .link{
+        left: -18%;
+        font-size: 13px;
+    }
+    .imagenHeader{
+        width: 30%;
+    }
+}

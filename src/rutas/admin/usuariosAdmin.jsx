@@ -1,38 +1,54 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import '../../estilos/usuariosAdmin.css';
+import React, { useState, useEffect } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
+import '../../estilos/usuariosAdmin.css'
 import MenuLateralAdmin from '../../componentes/sidebarAdmin'
-import NavAdmin from '../../componentes/navegacionAdmin';
-import InputSearch from '../../componentes/buscador';
+import NavAdmin from '../../componentes/navegacionAdmin'
 
 const UsuariosAdmin = () => {
-    const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [rol, setRol] = useState('');
+
+
+
+    const [nombre, setNombre] = useState('')
+    const [apellido, setApellido] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [rol, setRol] = useState('')
+
+    const [filteredUsuarios, setFilteredUsuarios] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
     const [dataUsuarios, setDataUsuarios] = useState([]);
     const [selectedUsuario, setSelectedUsuario] = useState(null);
     const [showEditarModal, setShowEditarModal] = useState(false);
     const [showNuevoModal, setShowNuevoModal] = useState(false);
     
-    const navigate = useNavigate();
-
-    // mostrar usuarios
 
     useEffect(() => {
         fetch('http://localhost:5000/usuarios')
             .then(response => response.json())
-            .then(data => setDataUsuarios(data))
+            .then(data => {
+                setDataUsuarios(data);
+                setFilteredUsuarios(data);
+            })
             .catch(error => console.error('Error al obtener usuarios:', error));
     }, []);
 
-    // editar usuarios
+
+
+    const handleSearch = (e) => {
+        const value = e.target.value.toLowerCase();
+        setSearchTerm(value);
+        const filtered = dataUsuarios.filter(usuario => 
+            usuario.nombre.toLowerCase().includes(value) ||
+            usuario.apellidos.toLowerCase().includes(value) ||
+            usuario.correo.toLowerCase().includes(value)
+        )
+        setFilteredUsuarios(filtered);
+    }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
             const response = await fetch('http://localhost:5000/actualizar_usuario', {
                 method: 'POST',
@@ -45,24 +61,24 @@ const UsuariosAdmin = () => {
                     clave: selectedUsuario.clave,
                     rol: selectedUsuario.rol
                 })
-            });
+            })
 
             if (response.ok) {
-                const updatedUsuarios = await response.json();
-                setDataUsuarios(updatedUsuarios); // Actualiza la lista de usuarios con los datos del servidor
-                setShowEditarModal(false); // Cierra el modal de edición
-                alert('Usuario actualizado correctamente');
+                const updatedUsuarios = await response.json()
+                setDataUsuarios(updatedUsuarios) // Actualiza la lista de usuarios con los datos del servidor
+                setShowEditarModal(false) // Cierra el modal de edición
+                alert('Usuario actualizado correctamente')
             } else {
-                console.error("Error al actualizar el usuario");
+                console.error("Error al actualizar el usuario")
             }
         } catch (error) {
-            console.error("Error al hacer la petición:", error);
+            console.error("Error al hacer la petición:", error)
         }
-    };
+    }
 
     const crearUsuario = async (e) => {
-        e.preventDefault();
-        const data = { nombre, apellido, email, password, rol };
+        e.preventDefault()
+        const data = { nombre, apellido, email, password, rol }
         try {
             const response = await fetch('http://localhost:5000/registro_usuario', {
                 method: 'POST',
@@ -70,33 +86,33 @@ const UsuariosAdmin = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data),
-            });
+            })
 
-            const result = await response.json();
+            const result = await response.json()
 
             if (response.status === 200) {
-                alert('Usuario Registrado correctamente');
-                navigate('/usuariosAdmin');
+                alert('Usuario Registrado correctamente')
+                navigate('/usuariosAdmin')
             } else {
-                console.error('Error:', result.message || 'Error al registrarse');
+                console.error('Error:', result.message || 'Error al registrarse')
             }
         } catch (error) {
-            console.error('Error de red. Intenta nuevamente más tarde.', error);
+            console.error('Error de red. Intenta nuevamente más tarde.', error)
         }
-    };
+    }
 
     const handleEditar = (usuario) => {
-        setSelectedUsuario(usuario);
-        setShowEditarModal(true);
-    };
+        setSelectedUsuario(usuario)
+        setShowEditarModal(true)
+    }
 
     const handleNuevoReceta = () => {
-        setShowNuevoModal(true); // Mostrar el modal para crear nueva receta
-    };
+        setShowNuevoModal(true) // Mostrar el modal para crear nueva receta
+    }
 
     const handleCloseNuevoModal = () => {
-        setShowNuevoModal(false); // Cerrar el modal de nueva receta
-    };
+        setShowNuevoModal(false) // Cerrar el modal de nueva receta
+    }
 
 
     return (
@@ -104,8 +120,16 @@ const UsuariosAdmin = () => {
             <NavAdmin />
             <MenuLateralAdmin />
             <h1>Usuarios</h1>
-            <InputSearch/>
-            <button 
+            <div className="search-container">
+                <input 
+                    type="text" 
+                    placeholder="Buscar usuario..." 
+                    value={searchTerm} 
+                    onChange={handleSearch} 
+                    className="input-search"
+                />
+            </div>      
+                  <button 
                 className="nuevaRecetaAdmin" 
                 onClick={handleNuevoReceta} // Abrir el modal de nueva receta
             >
@@ -124,7 +148,7 @@ const UsuariosAdmin = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {dataUsuarios.map((item) => (
+                    {filteredUsuarios.map((item) => (
                         <tr key={item.id} style={{ opacity: item.activo ? 1 : 0.5 }}>
                             <td>{item.id}</td>
                             <td>{item.nombre}</td>
@@ -135,6 +159,9 @@ const UsuariosAdmin = () => {
                             <td className="accionesUsuariosAdmin">
                                 <NavLink className='actulizarUsuarios' onClick={() => handleEditar(item)}>
                                     <FontAwesomeIcon icon={faPencil} style={{ color: "#000000" }} />
+                                </NavLink>
+                                <NavLink className='eliminarUsuarios'>
+                                    <FontAwesomeIcon icon={faTrash} style={{color: "#000000",}} />
                                 </NavLink>
                             </td>
                         </tr>
@@ -253,7 +280,7 @@ const UsuariosAdmin = () => {
                 </div>
                     )}
         </div>
-    );
-};
+    )
+}
 
-export default UsuariosAdmin;
+export default UsuariosAdmin

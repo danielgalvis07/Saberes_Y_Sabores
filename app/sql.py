@@ -18,8 +18,18 @@ class Sql:
         cursor.close()
         conexion.close()
         return resultado
+
+    def select_mis_semillas():#----------------------------------------------/semillas
+        conexion = db.connect()
+        cursor = conexion.cursor()
+        sql = "SELECT IdSemilla, NombreCientSemilla, imagen FROM semillas"
+        cursor.execute(sql)
+        resultado = cursor.fetchall()
+        cursor.close()
+        conexion.close()
+        return resultado
     
-    def update_semillas(nombre, imagen, id_receta):#---------------------/actualizar_producto
+    def update_semillas(nombre, imagen, id_receta):#---------------------/actualizar_semilla
         
         conexion = db.connect()
         cursor = conexion.cursor()
@@ -57,7 +67,7 @@ class Sql:
         return resultado
     #-----------------Eliminar------
     
-    def eliminar_senilla(id_semilla):
+    def eliminar_semilla(id_semilla):
         conexion = db.connect()
         cursor = conexion.cursor()
         sql = "DELETE FROM semillas WHERE idSemilla = %s" 
