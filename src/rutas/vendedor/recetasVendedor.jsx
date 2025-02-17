@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
 import NavVendedor from '../../componentes/navegacioVendedor'
 import MenuLateral from '../../componentes/sidebar'
 import '../../estilos/recetasVendedor.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImages } from '@fortawesome/free-solid-svg-icons';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import InputSearch from '../../componentes/buscador';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImages } from '@fortawesome/free-solid-svg-icons'
+import InputSearch from '../../componentes/buscador'
 
 const Modal = ({ isOpen, onClose, title, children }) => {
-    if (!isOpen) return null;
+    if (!isOpen) return null
   
     return (
       <div className="modal-overlay" onClick={onClose}>
@@ -20,30 +19,49 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           {children}
         </div>
       </div>
-    );
-  };
+    )
+  }
+
+  
   
     
 const RecetasVendedor = () => {
-    const [dataRecetas, setDataRecetas] = useState([]);
-    const [nombre, setNombre] = useState('');
+    const [dataRecetas, setDataRecetas] = useState([])
+    const [nombre, setNombre] = useState('')
     const [descripcion, setDescripcion] = useState('')
     const [imagen, setImagen] = useState('')
-    const [selectedProducto, setSelectedProducto] = useState(null);
-    const [editMode, setEditMode] = useState(false);
-    const [showEditarModal, setShowEditarModal] = useState(false);
-    const [showNuevoModal, setShowNuevoModal] = useState(false); 
+    const [selectedProducto, setSelectedProducto] = useState(null)
+    const [editMode, setEditMode] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [showNuevoModal, setShowNuevoModal] = useState(false) 
+
+    const [filteredProductos, setFilteredProductos] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const abrirModal = () => {
+        setShowModal(true) 
+    }
+    const cerrarModal = () => {
+        setShowModal(false) 
+    }
+
 
     useEffect(() => {
-        // Llamada a la API para obtener usuarios
         fetch('http://localhost:5000/recetas')
             .then(response => response.json())
             .then(data => setDataRecetas(data))
-            .catch(error => console.error('Error al obtener recetas:', error));
-    },[]);
+            .catch(error => console.error('Error al obtener recetas:', error))
+    },[])
+
+    const handleSearch = (e) => {
+        const value = e.target.value.toLowerCase();
+        setSearchTerm(value);
+        const filtered = dataProductos.filter(producto => producto.nombre.toLowerCase().includes(value));
+        setFilteredProductos(filtered);
+    };
 
 const handleEditarMisProductos = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
         const response = await fetch('http://localhost:5000/actualizar_receta', {
             method: 'POST',
@@ -53,46 +71,46 @@ const handleEditarMisProductos = async (e) => {
                 nombre: selectedProducto.nombre,
                 imagen: selectedProducto.imagen
             })
-        });
+        })
 
         if (response.ok) {
-            const updateSemillas = await response.json();
-            setDataProductos(updateSemillas); // Actualiza la lista de prodcutos con los datos del servidor
-            setShowEditarModal(false); // Cierra el modal de edición
-            alert('productos actualizada correctamente');
+            const updateSemillas = await response.json()
+            setDataProductos(updateSemillas) 
+            setShowEditarModal(false)
+            alert('productos actualizada correctamente')
         } else {
-            console.error("Error al actualizar la prodcuto");
+            console.error("Error al actualizar la prodcuto")
         }
     } catch (error) {
-        console.error("Error al hacer la petición:", error);
+        console.error("Error al hacer la petición:", error)
     }
-};
+}
 
 
-const handleEditar = (Producto) => {
-    setSelectedProducto(Producto);
-    setEditMode(true);
-    setShowEditarModal(true);
-};
-const handleUpdateProdcuto = (e) => {
-    e.preventDefault();
-    const updateSemillas = dataProductos.map((prodcuto) =>
-        prodcuto.id === selectedProducto.id ? selectedProducto : prodcuto
-    );
-    setDataProductos(updateSemillas);
-    setShowEditarModal(false);
-};
+// const handleEditar = (Producto) => {
+//     setSelectedProducto(Producto)
+//     setEditMode(true)
+//     setShowEditarModal(true)
+// }
+// const handleUpdateProdcuto = (e) => {
+//     e.preventDefault()
+//     const updateSemillas = dataProductos.map((prodcuto) =>
+//         prodcuto.id === selectedProducto.id ? selectedProducto : prodcuto
+//     )
+//     setDataProductos(updateSemillas)
+//     setShowEditarModal(false)
+// }
 
 const handleNuevoProducto = () => {
-    setShowNuevoModal(true); // Mostrar el modal para crear nuevo producto
-};
+    setShowNuevoModal(true) 
+}
 const handleCloseNuevoModal = () => {
-    setShowNuevoModal(false); // Cerrar el modal de nuevo producto
-};
+    setShowNuevoModal(false) 
+}
 
 const crearReceta = async (e) => {
-    e.preventDefault();
-    const data = { nombre, descripcion, imagen };
+    e.preventDefault()
+    const data = { nombre, descripcion, imagen }
     try {
         const response = await fetch('http://localhost:5000/registro_recetas', {
             method: 'POST',
@@ -100,31 +118,38 @@ const crearReceta = async (e) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        });
+        })
 
-        const result = await response.json();
+        const result = await response.json()
 
         if (response.status === 200) {
-            alert('receta Registrado correctamente');
-            navigate('/recetasVendedor');
+            alert('receta Registrado correctamente')
+            navigate('/recetasVendedor')
         } else {
-            console.error('Error:', result.message || 'Error al registrarse');
+            console.error('Error:', result.message || 'Error al registrarse')
         }
     } catch (error) {
-        console.error('Error de red. Intenta nuevamente más tarde.', error);
+        console.error('Error de red. Intenta nuevamente más tarde.', error)
     }
-};
+}
 
 
     return (
         <div className="MisProductos">
             <NavVendedor />
             <MenuLateral />
-            <h1>RECETAS VENDEDOR</h1>
-            <InputSearch/>
-            <button 
+            <h1 className="tituloRecetasVendedor">Recetas vendedor</h1>
+            <div className="search-container">
+                <input 
+                    type="text" 
+                    placeholder="Buscar producto..." 
+                    value={searchTerm} 
+                    onChange={handleSearch} 
+                    className="input-search"
+                />
+            </div>            <button 
                 className="nuevaRecetaAdmin" 
-                onClick={handleNuevoProducto} // Abrir el modal de nuevo producto
+                onClick={handleNuevoProducto} 
             >                
                 Registrar Receta
             </button>
@@ -135,10 +160,9 @@ const crearReceta = async (e) => {
                 <div className="cardRecetasVendedor">
 
                         <tr key={item.id} className="">
-                            <td>{item.id}</td><br />
                             <td>{item.Nombre}</td><br />
                             <td>{item.Descripcion}</td><br />
- 
+                            <button onClick={abrirModal} className="verMasVendedor">Ver más</button>
                         </tr>
                 </div>
                     ))}
@@ -147,29 +171,12 @@ const crearReceta = async (e) => {
 
 {/* Modal para "Editar" */}
 <Modal 
-isOpen={showEditarModal}
-onClose={() => setShowEditarModal(false)}
-title="Editar Recetas"
->
-<form onSubmit={handleEditarMisProductos} className="formularioEditarProductosAdmin">
-    <input 
-        className="inputProductoEditarAdmin"
-        type="text"
-        name="nombre"
-        value={selectedProducto?.nombre || ''}
-        onChange={(e) => setSelectedProducto({ ...selectedProducto, nombre: e.target.value })}
-    />
-    <br />
-    <input 
-        className="inputProductoEditarAdmin" 
-        type="file" 
-        name="imagen"
-        onChange={(e) => setSelectedProducto({ ...selectedProducto, imagen: e.target.value })}
-        />
-        <FontAwesomeIcon icon={faImages} className="iconoFotoProductosAdmin"/>
-        
-    <button type="submit" className="botonEditarProductosAdmin">Guardar Cambios</button>
-</form>
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          title="Informacion"
+          >
+            Vendedor:
+            informcion de contacto: 
 </Modal>
 
                    {/* Modal para "Nuevo producto" */}
@@ -177,7 +184,7 @@ title="Editar Recetas"
                 <div className="modal-overlay" onClick={handleCloseNuevoModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-modal" onClick={handleCloseNuevoModal}>X</button>
-                        <h2>Registrar Nuevo producto</h2>
+                        <h2>Registrar nueva receta</h2>
                         <form className="formularioEditarRecetasAdmin" onSubmit={crearReceta}>
                             <input 
                                 type="text"
@@ -204,7 +211,7 @@ title="Editar Recetas"
                                 onChange={(e) => setImagen(e.target.value)}
                             />
                             <FontAwesomeIcon icon={faImages} className="iconoFotoRecetasAdmin"/>
-                            <button type="submit" className="botonEditarRecetasAdmin">Registrar producto</button>
+                            <button type="submit" className="botonEditarRecetasAdmin">Registrar receta</button>
                         </form>
                     </div>
                 </div>

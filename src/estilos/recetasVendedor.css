@@ -8,3 +8,32 @@
         background: #d9d9d9;
         border-radius: 10px;
 }
+.verMasVendedor{
+    margin-bottom: 10%;
+    background: #8581814d;
+    width: 152px;
+}
+
+@media (max-width: 800px) {
+        .tituloRecetasVendedor{
+                font-size: 36px;
+            }
+            .nuevaRecetaAdmin {
+                bottom: 63px;
+                width: 100px;
+                font-size: 12px;
+                margin-right: 51px;
+            }
+            .input-search{
+                width: 154px;
+            }
+            .search-button{
+                top: -18px;
+                right: -60px;
+            }
+            .crudVendedorSemillas{
+                margin-left: 8%;
+                width: 95%;
+                display: block;
+            }
+}

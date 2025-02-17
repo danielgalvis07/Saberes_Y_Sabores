@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
+
 import NavVendedor from '../../componentes/navegacioVendedor'
-import MenuLateral from '../../componentes/sidebar'
+import MenuLateralCliente from '../../componentes/sidebarCliente'
 import InputSearch from '../../componentes/buscador'
 
 import '../../estilos/misSemillas.css'
     
-const TiendaVendedor = () => {
+const TiendaCliente = () => {
     const [dataProductos, setDataProductos] = useState([])
     const [nombre, setNombre] = useState('')
     const [imagen, setImagen] = useState('')
@@ -14,19 +15,15 @@ const TiendaVendedor = () => {
     const [showEditarModal, setShowEditarModal] = useState(false)
     const [showNuevoModal, setShowNuevoModal] = useState(false) 
 
-    const [filteredProductos, setFilteredProductos] = useState([])
-    const [searchTerm, setSearchTerm] = useState("")
+    const [filteredProductos, setFilteredProductos] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         fetch('http://localhost:5000/semillas')
             .then(response => response.json())
-            .then(data => {
-                setDataProductos(data);
-                setFilteredProductos(data);
-            })
-            .catch(error => console.error('Error al obtener productos:', error));
-    }, []);
-
+            .then(data => setDataProductos(data))
+            .catch(error => console.error('Error al obtener productos:', error))
+    }, [])
 
 const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
@@ -88,7 +85,7 @@ const handleCloseNuevoModal = () => {
     return (
         <div className="MisProductos">
             <NavVendedor />
-            <MenuLateral />
+            <MenuLateralCliente />
             <h1>Tienda</h1>
 
             <div className="search-container">
@@ -102,7 +99,7 @@ const handleCloseNuevoModal = () => {
             </div>
             <div className="crudVendedorSemillas">
 
-                {filteredProductos.map((item) => (
+                {dataProductos.map((item) => (
                     <div className="cardMisProductos" key={item.id}>
                     <td className="nombreMisProductos">{item.nombre}</td>
 
@@ -139,4 +136,4 @@ const handleCloseNuevoModal = () => {
 
 }
 
-export default TiendaVendedor
+export default TiendaCliente

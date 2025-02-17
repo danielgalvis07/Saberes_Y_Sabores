@@ -1,36 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImages } from '@fortawesome/free-solid-svg-icons';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from "react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImages } from '@fortawesome/free-solid-svg-icons'
 import NavVendedor from '../../componentes/navegacioVendedor'
 import MenuLateral from '../../componentes/sidebar'
-import InputSearch from '../../componentes/buscador';
+import InputSearch from '../../componentes/buscador'
 
 import '../../estilos/misSemillas.css'
-
-
-// import GaleriaMisProductos from '../../componentes/galeria'
-
-
-    
+  
 const MisSemillas = () => {
-    const [dataProductos, setDataProductos] = useState([]);
-    const [nombre, setNombre] = useState('');
+    const [dataProductos, setDataProductos] = useState([])
+    const [nombre, setNombre] = useState('')
     const [imagen, setImagen] = useState('')
-    const [selectedProducto, setSelectedProducto] = useState(null);
-    const [editMode, setEditMode] = useState(false);
-    const [showEditarModal, setShowEditarModal] = useState(false);
-    const [showNuevoModal, setShowNuevoModal] = useState(false); 
+    const [selectedProducto, setSelectedProducto] = useState(null)
+    const [editMode, setEditMode] = useState(false)
+    const [showEditarModal, setShowEditarModal] = useState(false)
+    const [showNuevoModal, setShowNuevoModal] = useState(false) 
+
+    const [filteredProductos, setFilteredProductos] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         fetch('http://localhost:5000/semillas')
             .then(response => response.json())
-            .then(data => setDataProductos(data))
+            .then(data => {
+                setDataProductos(data);
+                setFilteredProductos(data);
+            })
             .catch(error => console.error('Error al obtener productos:', error));
-    }, []);
+    }, []);
+
+
+const handleSearch = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchTerm(value);
+    const filtered = dataProductos.filter(producto => producto.nombre.toLowerCase().includes(value));
+    setFilteredProductos(filtered);
+};
 
 const handleEditarMisProductos = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
         const response = await fetch('http://localhost:5000/actualizar_producto', {
             method: 'POST',
@@ -40,46 +48,46 @@ const handleEditarMisProductos = async (e) => {
                 nombre: selectedProducto.nombre,
                 imagen: selectedProducto.imagen
             })
-        });
+        })
 
         if (response.ok) {
-            const updateSemillas = await response.json();
-            setDataProductos(updateSemillas); // Actualiza la lista de prodcutos con los datos del servidor
-            setShowEditarModal(false); // Cierra el modal de edición
-            alert('productos actualizada correctamente');
+            const updateSemillas = await response.json()
+            setDataProductos(updateSemillas) 
+            setShowEditarModal(false) 
+            alert('productos actualizada correctamente')
         } else {
-            console.error("Error al actualizar la prodcuto");
+            console.error("Error al actualizar la prodcuto")
         }
     } catch (error) {
-        console.error("Error al hacer la petición:", error);
+        console.error("Error al hacer la petición:", error)
     }
-};
+}
 
 
 const handleEditar = (Producto) => {
-    setSelectedProducto(Producto);
-    setEditMode(true);
-    setShowEditarModal(true);
-};
+    setSelectedProducto(Producto)
+    setEditMode(true)
+    setShowEditarModal(true)
+}
 const handleUpdateProdcuto = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const updateSemillas = dataProductos.map((prodcuto) =>
         prodcuto.id === selectedProducto.id ? selectedProducto : prodcuto
-    );
-    setDataProductos(updateSemillas);
-    setShowEditarModal(false);
-};
+    )
+    setDataProductos(updateSemillas)
+    setShowEditarModal(false)
+}
 
 const handleNuevoProducto = () => {
-    setShowNuevoModal(true); // Mostrar el modal para crear nuevo producto
-};
+    setShowNuevoModal(true) 
+}
 const handleCloseNuevoModal = () => {
-    setShowNuevoModal(false); // Cerrar el modal de nuevo producto
-};
+    setShowNuevoModal(false) 
+}
 
 const crearProducto = async (e) => {
-    e.preventDefault();
-    const data = { nombre, imagen };
+    e.preventDefault()
+    const data = { nombre, imagen }
     try {
         const response = await fetch('http://localhost:5000/registro_productos', {
             method: 'POST',
@@ -87,40 +95,47 @@ const crearProducto = async (e) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        });
+        })
 
-        const result = await response.json();
+        const result = await response.json()
 
         if (response.status === 200) {
-            alert('producto Registrado correctamente');
-            navigate('/misProductos');
+            alert('producto Registrado correctamente')
+            navigate('/misProductos')
         } else {
-            console.error('Error:', result.message || 'Error al registrarse');
+            console.error('Error:', result.message || 'Error al registrarse')
         }
     } catch (error) {
-        console.error('Error de red. Intenta nuevamente más tarde.', error);
+        console.error('Error de red. Intenta nuevamente más tarde.', error)
     }
-};
+}
 
 
     return (
         <div className="MisProductos">
             <NavVendedor />
             <MenuLateral />
-            <h1>MIS SEMILLAS</h1>
-            {/* <input type="text" className="buscarProductosAdmin"/>
-            <button  className="botonBuscarProductosAdmin"><FontAwesomeIcon icon={faMagnifyingGlass} /></button> */}
-            <InputSearch/>
-            <button 
+            <h1>Mis semillas</h1>
+
+            <div className="search-container">
+                <input 
+                    type="text" 
+                    placeholder="Buscar producto..." 
+                    value={searchTerm} 
+                    onChange={handleSearch} 
+                    className="input-search"
+                />
+            </div>
+                        <button 
                 className="nuevaRecetaAdmin" 
-                onClick={handleNuevoProducto} // Abrir el modal de nuevo producto
+                onClick={handleNuevoProducto}
             >                
                 Registrar producto
             </button>
 
             <div className="crudVendedorSemillas">
 
-                {dataProductos.map((item) => (
+                {filteredProductos.map((item) => (
                     <div className="cardMisProductos" key={item.id}>
                     <td className="nombreMisProductos">{item.nombre}</td>
                     <td className="inventarioMisProductos">7</td>
@@ -194,7 +209,7 @@ const crearProducto = async (e) => {
                 </div>
             )}
 
-  </div>
+         </div>
         </div>
 
 )

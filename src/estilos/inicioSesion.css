@@ -32,14 +32,16 @@
     padding: 12px;
     padding-left: 42px;
     background-color: #fff;
+    color: #3a3f43;
 }
 
-.botones{
+.botonesSesion{
     margin-top: 42px;
     margin-bottom: 12px;
     width: 45%;
     height: 55px;
     background-color: #fff;
+    margin-left: 5%;
 }
 .botones:hover{
     background-color: #acacac;
@@ -65,10 +67,15 @@
     right: 46%;
     font: 32%;
 }
-.tituloInicio{
-    
-}
 
 .cuenta{
     color: #3a3f43;
+}
+
+.error{
+    color: #c63f3f;
+    border: solid 1px #c63f3f;
+    padding: 11px;
+    border-radius: 5px;
+    width: 101%;
 }

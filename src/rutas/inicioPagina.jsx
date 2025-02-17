@@ -11,7 +11,7 @@ const Principio = () => {
       <Nav/>
       <div className="imagenInicio">
         <img
-          src="https://www.syngenta.com.co/sites/g/files/kgtney501/files/styles/main_media_large/public/media/image/2017/12/15/14dic_mitos_700x400.jpg?itok=wFzz4N83"
+          src="https://i.pinimg.com/736x/8b/3b/29/8b3b29ef215f312f30dcf915b933a57e.jpg"
           alt="Mi imagen" className="imagenSuperior"
         />
           <div className="cuadritoTexto">
